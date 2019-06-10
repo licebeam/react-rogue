@@ -25,13 +25,42 @@ const Tile = styled.div`
         break;
     }
   }};
+    color: ${props => {
+    switch (props.tile) {
+      case 'wall':
+        return 'black'
+      case 'ground':
+        return 'green'
+      case 'rock':
+        return 'grey'
+      case 'tree':
+        return 'darkgreen'
+      default:
+        break;
+    }
+  }};
   &:hover{
     opacity: .8;
   }
 `
 const Entity = styled.div`
+  font-size: 50px;
   height: 50px;
   width: 50px;
+  color: ${props => {
+    switch (props.tile) {
+      case 'player':
+        return 'red'
+      case 'ground':
+        return 'green'
+      case 'rock':
+        return 'grey'
+      case 'tree':
+        return 'darkgreen'
+      default:
+        break;
+    }
+  }};
   &:hover{
     opacity: .8;
   }
@@ -142,7 +171,7 @@ class App extends Component {
               <Tile tile={tile.tile}>
                 {editEntities ? editEntities.map(ent => {
                   if (ent.id === tile.id) {
-                    return (<Entity>{ent.sprite}</Entity>)
+                    return (<Entity tile={ent.sprite}>{ent.char}</Entity>)
                   }
                 }) : null}
               </Tile>
