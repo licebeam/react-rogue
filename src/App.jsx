@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 import styled from 'styled-components';
-import { tiles } from './TestData/tiles' //FAKE TILE DATA
 import { entities } from './TestData/entities';
 
 const TileContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 50px);
+  grid-template-columns: repeat(10, 50px);
 `
 
 const Tile = styled.div`
@@ -28,9 +27,24 @@ const Entity = styled.div`
 class App extends Component {
   state = {
     editEntities: entities,
-    editTiles: tiles,
+    editTiles: [],
   }
+
+  tileGenerator = roomSize => {
+    console.log(roomSize)
+    let room = [];
+    var i;
+    for (i = 0; i < roomSize; i++) {
+      console.log('push');
+      console.log(i)
+      room.push({ id: i + 1, tile: 'ground' })
+    }
+    console.log(room)
+    return room;
+  }
+
   componentDidMount() {
+    this.setState({ editTiles: this.tileGenerator(60) })
     document.addEventListener('DOMContentLoaded', () => {
       'use strict';
       document.addEventListener('keydown', event => {
@@ -60,10 +74,10 @@ class App extends Component {
     let Player = this.state.editEntities.find(ent => ent.sprite === 'player')
     console.log(event)
     if (event.key === 'ArrowUp') {
-      this.setState({ editEntities: this.changePlayerPosition(Player, this.state.editEntities, -5, this.state.editTiles) })
+      this.setState({ editEntities: this.changePlayerPosition(Player, this.state.editEntities, -10, this.state.editTiles) })
     }
     if (event.key === 'ArrowDown') {
-      this.setState({ editEntities: this.changePlayerPosition(Player, this.state.editEntities, 5, this.state.editTiles) })
+      this.setState({ editEntities: this.changePlayerPosition(Player, this.state.editEntities, 10, this.state.editTiles) })
     }
     if (event.key === 'ArrowRight') {
       this.setState({ editEntities: this.changePlayerPosition(Player, this.state.editEntities, 1, this.state.editTiles) })
@@ -74,7 +88,6 @@ class App extends Component {
   }
   render() {
     const { editTiles, editEntities } = this.state;
-    console.log(editEntities)
     return (
       <div className="App">
         <TileContainer className='tiles'>
