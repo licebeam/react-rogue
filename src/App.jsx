@@ -44,19 +44,15 @@ const Tile = styled.div`
   }
 `
 const Entity = styled.div`
-  font-size: 50px;
+  font-size: 40px;
   height: 50px;
   width: 50px;
   color: ${props => {
     switch (props.tile) {
       case 'player':
+        return 'pink'
+      case 'apple':
         return 'red'
-      case 'ground':
-        return 'green'
-      case 'rock':
-        return 'grey'
-      case 'tree':
-        return 'darkgreen'
       default:
         break;
     }
