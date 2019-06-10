@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { entities } from './TestData/entities';
 
 const TileContainer = styled.div`
@@ -11,7 +11,20 @@ const TileContainer = styled.div`
 const Tile = styled.div`
   height: 50px;
   width: 50px;
-  background-color: ${props => props.tile === 'wall' ? 'black' : 'green'};
+  background-color: ${props => {
+    switch (props.tile) {
+      case 'wall':
+        return 'black'
+      case 'ground':
+        return 'green'
+      case 'rock':
+        return 'grey'
+      case 'tree':
+        return 'darkgreen'
+      default:
+        break;
+    }
+  }};
   &:hover{
     opacity: .8;
   }
@@ -54,8 +67,21 @@ class App extends Component {
         room.push({ id: i + 1, tile: 'ground' })
       }
     }
-    console.log(room)
+    room = this.addRandomTiles(room, 'rock')
+    room = this.addRandomTiles(room, 'tree')
     return room;
+  }
+
+  addRandomTiles = (curRoom, type) => {
+    const mappedTiles = curRoom.map(tile => {
+      let randomTile = Math.floor(Math.random() * (120 - 1 + 1)) + 1;
+      if (tile.tile !== 'wall') {
+        if (tile.id === (randomTile + 1) || (tile.id === (randomTile - 1) || tile.id === randomTile)) {
+          return { id: tile.id, tile: type }
+        } else return tile
+      } else return tile
+    })
+    return mappedTiles;
   }
 
   componentDidMount() {
@@ -68,21 +94,26 @@ class App extends Component {
     });
   }
 
+  checkNextTileCollide = nextTile => {
+    switch (nextTile) {
+      case 'tree':
+        return true
+      case 'wall':
+        return true
+      default:
+        break;
+    }
+  }
+
   changePlayerPosition = (player, entities, move, tiles) => {
     const nextTile = tiles.find(t => t.id === (player.id + move))
     const newEntities = entities.map(ent => {
-      if (nextTile && ent.id === player.id && nextTile.tile !== 'wall') {
+      if (nextTile && ent.id === player.id && !this.checkNextTileCollide(nextTile.tile)) {
         ent.id += move
       }
       return ent
     })
     return newEntities;
-  }
-
-  checkBounds = (player) => {
-    if (player.id) {
-
-    }
   }
 
   fireKey = (event) => {
