@@ -1,7 +1,7 @@
 {
   "name": "rogue-like-thing",
   "version": "0.1.0",
-  "homepage": "http://gitname.github.io/react-rogue",
+  "homepage": "http://licebeam.github.io/react-rogue",
   "private": true,
   "dependencies": {
     "gh-pages": "^2.0.1",
