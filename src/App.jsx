@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { entities } from './TestData/entities';
-
+import { tileGenerator } from './helpers/tileFunctions';
+import { changePlayerPosition } from './helpers/moveFunctions';
 const TileContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(10, 50px);
@@ -68,49 +69,8 @@ class App extends Component {
     editTiles: [],
   }
 
-  tileGenerator = roomSize => {
-    let room = [];
-    var i;
-    const MAX_ROW_LEN = 10;
-    const FIRST_ROW = 10;
-    const LAST_ROW = roomSize - 9;
-    for (i = 0; i < roomSize; i++) {
-      //Generate Walls
-      if (i + 1 <= FIRST_ROW) { //TOP
-        room.push({ id: i + 1, tile: 'wall' })
-      }
-      else if (i + 1 >= LAST_ROW) { //BOTTOM
-        room.push({ id: i + 1, tile: 'wall' })
-      }
-      else if (i % MAX_ROW_LEN === 0) { //LEFT
-        room.push({ id: i + 1, tile: 'wall' })
-      }
-      else if (i % MAX_ROW_LEN === 9) { //LEFT
-        room.push({ id: i + 1, tile: 'wall' })
-      }
-      else {
-        room.push({ id: i + 1, tile: 'ground' })
-      }
-    }
-    room = this.addRandomTiles(room, 'rock')
-    room = this.addRandomTiles(room, 'tree')
-    return room;
-  }
-
-  addRandomTiles = (curRoom, type) => {
-    const mappedTiles = curRoom.map(tile => {
-      let randomTile = Math.floor(Math.random() * (120 - 1 + 1)) + 1;
-      if (tile.tile !== 'wall') {
-        if (tile.id === (randomTile + 1) || (tile.id === (randomTile - 1) || tile.id === randomTile)) {
-          return { id: tile.id, tile: type }
-        } else return tile
-      } else return tile
-    })
-    return mappedTiles;
-  }
-
   componentDidMount() {
-    this.setState({ editTiles: this.tileGenerator(120) })
+    this.setState({ editTiles: tileGenerator(120) })
     document.addEventListener('DOMContentLoaded', () => {
       'use strict';
       document.addEventListener('keydown', event => {
@@ -119,44 +79,23 @@ class App extends Component {
     });
   }
 
-  checkNextTileCollide = nextTile => {
-    switch (nextTile) {
-      case 'tree':
-        return true
-      case 'wall':
-        return true
-      default:
-        break;
-    }
-  }
-
-  changePlayerPosition = (player, entities, move, tiles) => {
-    const nextTile = tiles.find(t => t.id === (player.id + move))
-    const newEntities = entities.map(ent => {
-      if (nextTile && ent.id === player.id && !this.checkNextTileCollide(nextTile.tile)) {
-        ent.id += move
-      }
-      return ent
-    })
-    return newEntities;
-  }
-
   fireKey = (event) => {
-    let Player = this.state.editEntities.find(ent => ent.sprite === 'player')
-    console.log(event)
+    const { editEntities, editTiles } = this.state;
+    let Player = editEntities.find(ent => ent.sprite === 'player')
     if (event.key === 'ArrowUp') {
-      this.setState({ editEntities: this.changePlayerPosition(Player, this.state.editEntities, -10, this.state.editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -10, editTiles) })
     }
     if (event.key === 'ArrowDown') {
-      this.setState({ editEntities: this.changePlayerPosition(Player, this.state.editEntities, 10, this.state.editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, 10, editTiles) })
     }
     if (event.key === 'ArrowRight') {
-      this.setState({ editEntities: this.changePlayerPosition(Player, this.state.editEntities, 1, this.state.editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, 1, editTiles) })
     }
     if (event.key === 'ArrowLeft') {
-      this.setState({ editEntities: this.changePlayerPosition(Player, this.state.editEntities, -1, this.state.editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -1, editTiles) })
     }
   }
+
   render() {
     const { editTiles, editEntities } = this.state;
     return (
