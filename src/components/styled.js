@@ -36,9 +36,9 @@ export const Tile = styled.div`
       case 'ground':
         return 'darkgreen'
       case 'rock':
-        return 'grey'
+        return 'darkgrey'
       case 'tree':
-        return 'darkgreen'
+        return 'green'
       default:
         break;
     }
@@ -58,6 +58,7 @@ export const Entity = styled.div`
   position: absolute;
   justify-self: center;
   align-self: center;
+  font-weight: bold;
   font-size: ${`${TILE_SIZE * .8}px`};
   height: ${`${TILE_SIZE}px`};
   width: ${`${TILE_SIZE}px`};
