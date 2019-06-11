@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-
+import { MAX_WORLD_WIDTH } from '../constants/constants';
 export const TileContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(10, 50px);
+  grid-template-columns: ${`repeat(${MAX_WORLD_WIDTH}, 50px)`};
 `
 
 export const Tile = styled.div`

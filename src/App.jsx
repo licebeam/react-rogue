@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { MAX_WORLD_WIDTH, MAX_WORLD_HEIGHT } from './constants/constants';
 import { entities } from './TestData/entities';
 import { TileContainer, Tile, Entity } from './components/styled';
 import { tileGenerator } from './helpers/tileFunctions';
@@ -12,7 +13,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({ editTiles: tileGenerator(120) })
+    this.setState({ editTiles: tileGenerator(MAX_WORLD_HEIGHT) })
     document.addEventListener('DOMContentLoaded', () => {
       document.addEventListener('keydown', event => {
         this.fireKey(event)
@@ -24,10 +25,10 @@ class App extends Component {
     const { editEntities, editTiles } = this.state;
     let Player = editEntities.find(ent => ent.sprite === 'player')
     if (event.key === 'ArrowUp') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -10, editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -(MAX_WORLD_WIDTH), editTiles) })
     }
     if (event.key === 'ArrowDown') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, 10, editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, MAX_WORLD_WIDTH, editTiles) })
     }
     if (event.key === 'ArrowRight') {
       this.setState({ editEntities: changePlayerPosition(Player, editEntities, 1, editTiles) })
