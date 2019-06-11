@@ -54,6 +54,7 @@ export const Tile = styled.div`
 `
 export const Entity = styled.div`
   display: flex;
+  flex-direction: column;
   position: absolute;
   justify-self: center;
   align-self: center;
