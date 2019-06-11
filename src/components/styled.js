@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import { MAX_WORLD_WIDTH } from '../constants/constants';
+import { MAX_WORLD_WIDTH, TILE_SIZE } from '../constants/constants';
 export const TileContainer = styled.div`
   display: grid;
-  grid-template-columns: ${`repeat(${MAX_WORLD_WIDTH}, 50px)`};
+  grid-template-columns: ${`repeat(${MAX_WORLD_WIDTH}, ${TILE_SIZE}px)`};
 `
 
 export const Tile = styled.div`
-  height: 50px;
-  width: 50px;
+  height: ${`${TILE_SIZE}px`};
+  width: ${`${TILE_SIZE}px`};
   background-color: ${props => {
     switch (props.tile) {
       case 'wall':
@@ -41,9 +41,9 @@ export const Tile = styled.div`
   }
 `
 export const Entity = styled.div`
-  font-size: 40px;
-  height: 50px;
-  width: 50px;
+  font-size: ${`${TILE_SIZE * .8}px`};
+  height: ${`${TILE_SIZE}px`};
+  width: ${`${TILE_SIZE}px`};
   color: ${props => {
     switch (props.tile) {
       case 'player':
