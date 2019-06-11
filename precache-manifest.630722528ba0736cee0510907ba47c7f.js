@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3c50a947136181ba400429f4e704a45d",
+    "revision": "7c7da3ee32cd40fcfbfe0d91c8df2fd3",
     "url": "/react-rogue/index.html"
   },
   {
-    "revision": "d5bbbc200925566d46a7",
+    "revision": "117036ea116603627dc6",
     "url": "/react-rogue/static/css/main.25626605.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-rogue/static/js/2.0746c7cd.chunk.js"
   },
   {
-    "revision": "d5bbbc200925566d46a7",
-    "url": "/react-rogue/static/js/main.606ecfe5.chunk.js"
+    "revision": "117036ea116603627dc6",
+    "url": "/react-rogue/static/js/main.03c66828.chunk.js"
   },
   {
     "revision": "5fdfe0a3f5ed48e23b66",
