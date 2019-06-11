@@ -55,8 +55,7 @@ class App extends Component {
                   <img className='sprite-image' src={t.tile.img} alt="" />
                 ) : t.tile.char}
 
-                {editEntities ? editEntities.map(ent => {
-
+                {editEntities ? editEntities.forEach(ent => {
                   if (ent.id === t.id) {
                     return (
                       <Entity tile={ent.type} key={ent.id + 'tile'}>
