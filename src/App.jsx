@@ -12,6 +12,7 @@ class App extends Component {
     editTiles: [],
   }
 
+  //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
   componentDidMount() {
     this.setState({ editTiles: tileGenerator(MAX_WORLD_HEIGHT) })
     document.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +22,7 @@ class App extends Component {
     });
   }
 
+  //PLAYER KEYS
   fireKey = (event) => {
     const { editEntities, editTiles } = this.state;
     let Player = editEntities.find(ent => ent.sprite === 'player')
@@ -38,6 +40,7 @@ class App extends Component {
     }
   }
 
+  //RENDERS TILES AND ENTITIES
   render() {
     const { editTiles, editEntities } = this.state;
     return (
