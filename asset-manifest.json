@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/react-rogue/static/css/main.25626605.chunk.css",
-    "main.js": "/react-rogue/static/js/main.9c99f859.chunk.js",
-    "main.js.map": "/react-rogue/static/js/main.9c99f859.chunk.js.map",
+    "main.js": "/react-rogue/static/js/main.d59f6ea1.chunk.js",
+    "main.js.map": "/react-rogue/static/js/main.d59f6ea1.chunk.js.map",
     "runtime~main.js": "/react-rogue/static/js/runtime~main.d3070e8c.js",
     "runtime~main.js.map": "/react-rogue/static/js/runtime~main.d3070e8c.js.map",
     "static/js/2.0746c7cd.chunk.js": "/react-rogue/static/js/2.0746c7cd.chunk.js",
     "static/js/2.0746c7cd.chunk.js.map": "/react-rogue/static/js/2.0746c7cd.chunk.js.map",
     "index.html": "/react-rogue/index.html",
-    "precache-manifest.baa7dba6e501788fa93c6fedf3c2f907.js": "/react-rogue/precache-manifest.baa7dba6e501788fa93c6fedf3c2f907.js",
+    "precache-manifest.b3493bf666429d89ea577a64b0c46a21.js": "/react-rogue/precache-manifest.b3493bf666429d89ea577a64b0c46a21.js",
     "service-worker.js": "/react-rogue/service-worker.js",
     "static/css/main.25626605.chunk.css.map": "/react-rogue/static/css/main.25626605.chunk.css.map"
   }
