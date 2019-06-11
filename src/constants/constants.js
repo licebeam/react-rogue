@@ -2,4 +2,4 @@
 const MAX_TILES = 24; //MUST BE EVEN NUMBER
 export const MAX_WORLD_WIDTH = MAX_TILES / 2;
 export const MAX_WORLD_HEIGHT = MAX_WORLD_WIDTH * MAX_TILES / 2;
-export const TILE_SIZE = 32;
+export const TILE_SIZE = 64;
