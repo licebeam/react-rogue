@@ -53,6 +53,7 @@ export const Tile = styled.div`
   }
 `
 export const Entity = styled.div`
+  z-index: 100;
   display: flex;
   flex-direction: column;
   position: absolute;

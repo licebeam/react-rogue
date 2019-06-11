@@ -5,7 +5,6 @@ import { TileContainer, Tile, Entity } from './components/styled';
 import { tileGenerator } from './helpers/tileFunctions';
 import { changePlayerPosition } from './helpers/moveFunctions';
 
-
 class App extends Component {
   state = {
     editEntities: entities,
@@ -40,38 +39,43 @@ class App extends Component {
     }
   }
 
+  produceEntityOnScreen = tileId => {
+    const { editEntities } = this.state;
+    const sentEntity = editEntities.find(ent => {
+      if (ent.id === tileId) {
+        return ent
+      }
+    })
+    if (sentEntity)
+      return (<Entity tile={sentEntity.type} key={sentEntity.id + 'tile'}>
+        {sentEntity.img ? (
+          <img className='sprite-image' src={sentEntity.img} alt="" />
+        ) : sentEntity.char}
+      </Entity>)
+  };
+
+
   //RENDERS TILES AND ENTITIES
   render() {
     const { editTiles, editEntities } = this.state;
     return (
-      <div className="App">
+      <div className="App" >
         <TileContainer className='tiles'>
           {editTiles ? editTiles.map(t => {
             return (
               <Tile tile={t.tile.name} key={t.id}>
-
                 {/* conditionally render image */}
                 {t.tile.img ? (
                   <img className='sprite-image' src={t.tile.img} alt="" />
                 ) : t.tile.char}
 
-                {editEntities ? editEntities.map(ent => {
-                  if (ent.id === t.id) {
-                    return (
-                      <Entity tile={ent.type} key={ent.id + 'tile'}>
-                        {/* conditionally render image or character */}
-                        {ent.img ? (
-                          <img className='sprite-image' src={ent.img} alt="" />
-                        ) : ent.char}
-                      </Entity>)
-                  }
-                }) : null}
 
+                {editEntities ? this.produceEntityOnScreen(t.id) : null}
               </Tile>
             )
           }) : null}
         </TileContainer>
-      </div>
+      </div >
     );
   }
 
