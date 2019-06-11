@@ -68,8 +68,6 @@ class App extends Component {
                 {t.tile.img ? (
                   <img className='sprite-image' src={t.tile.img} alt="" />
                 ) : t.tile.char}
-
-
                 {editEntities ? this.produceEntityOnScreen(t.id) : null}
               </Tile>
             )
