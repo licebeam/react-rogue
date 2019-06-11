@@ -46,11 +46,18 @@ class App extends Component {
     return (
       <div className="App">
         <TileContainer className='tiles'>
-          {editTiles ? editTiles.map(tile => {
+          {editTiles ? editTiles.map(t => {
             return (
-              <Tile tile={tile.tile}>
+              <Tile tile={t.tile.name}>
+
+                {/* conditionally render image */}
+                {t.tile.img ? (
+                  <img className='sprite-image' src={t.tile.img} alt="" />
+                ) : t.tile.char}
+
                 {editEntities ? editEntities.map(ent => {
-                  if (ent.id === tile.id) {
+
+                  if (ent.id === t.id) {
                     return (
                       <Entity tile={ent.type}>
                         {/* conditionally render image or character */}
@@ -60,6 +67,7 @@ class App extends Component {
                       </Entity>)
                   }
                 }) : null}
+
               </Tile>
             )
           }) : null}

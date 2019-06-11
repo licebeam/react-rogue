@@ -1,11 +1,18 @@
 import styled from 'styled-components';
 import { MAX_WORLD_WIDTH, TILE_SIZE } from '../constants/constants';
+
 export const TileContainer = styled.div`
   display: grid;
   grid-template-columns: ${`repeat(${MAX_WORLD_WIDTH}, ${TILE_SIZE}px)`};
 `
 
 export const Tile = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 0;
   height: ${`${TILE_SIZE}px`};
   width: ${`${TILE_SIZE}px`};
   background-color: ${props => {
@@ -25,9 +32,9 @@ export const Tile = styled.div`
     color: ${props => {
     switch (props.tile) {
       case 'wall':
-        return 'black'
+        return 'grey'
       case 'ground':
-        return 'green'
+        return 'darkgreen'
       case 'rock':
         return 'grey'
       case 'tree':
@@ -39,15 +46,24 @@ export const Tile = styled.div`
   &:hover{
     opacity: .8;
   }
+  .sprite-image{
+    object-fit: cover;
+    height: ${`${TILE_SIZE}px`};
+    width: ${`${TILE_SIZE}px`};
+  }
 `
 export const Entity = styled.div`
-  font-size: ${`${TILE_SIZE}px`};
+  display: flex;
+  position: absolute;
+  justify-self: center;
+  align-self: center;
+  font-size: ${`${TILE_SIZE * .8}px`};
   height: ${`${TILE_SIZE}px`};
   width: ${`${TILE_SIZE}px`};
   color: ${props => {
     switch (props.tile) {
       case 'player':
-        return 'pink'
+        return 'orange'
       case 'apple':
         return 'red'
       default:
@@ -59,9 +75,8 @@ export const Entity = styled.div`
     opacity: .8;
   }
   .sprite-image{
-    z-index: 100;
     object-fit: cover;
-    height: 50px;
-    width: 50px;
+    height: ${`${TILE_SIZE}px`};
+    width: ${`${TILE_SIZE}px`};
   }
 `
