@@ -25,6 +25,10 @@ export const Tile = styled.div`
         return 'grey'
       case 'tree':
         return 'darkgreen'
+      case 'player':
+        return 'black'
+      case 'apple':
+        return 'black'
       default:
         break;
     }
@@ -39,32 +43,7 @@ export const Tile = styled.div`
         return 'darkgrey'
       case 'tree':
         return 'green'
-      default:
-        break;
-    }
-  }};
-  &:hover{
-    opacity: .8;
-  }
-  .sprite-image{
-    object-fit: cover;
-    height: ${`${TILE_SIZE}px`};
-    width: ${`${TILE_SIZE}px`};
-  }
-`
-export const Entity = styled.div`
-  z-index: 100;
-  display: inline-block;
-  flex-direction: column;
-  position: absolute;
-  justify-self: center;
-  align-self: center;
-  font-weight: bold;
-  font-size: ${`${TILE_SIZE * .8}px`};
-  height: ${`${TILE_SIZE}px`};
-  width: ${`${TILE_SIZE}px`};
-  color: ${props => {
-    switch (props.tile) {
+
       case 'player':
         return 'orange'
       case 'apple':
@@ -73,7 +52,6 @@ export const Entity = styled.div`
         break;
     }
   }};
-  overflow: hidden;
   &:hover{
     opacity: .8;
   }
@@ -83,3 +61,33 @@ export const Entity = styled.div`
     width: ${`${TILE_SIZE}px`};
   }
 `
+// export const Entity = styled.div`
+//   z-index: 100;
+//   display: inline-block;
+//   position: absolute;
+//   justify-self: center;
+//   align-self: center;
+//   font-weight: bold;
+//   font-size: ${`${TILE_SIZE * .8}px`};
+//   height: ${`${TILE_SIZE}px`};
+//   width: ${`${TILE_SIZE}px`};
+//   color: ${props => {
+//     switch (props.tile) {
+//       case 'player':
+//         return 'orange'
+//       case 'apple':
+//         return 'red'
+//       default:
+//         break;
+//     }
+//   }};
+//   overflow: hidden;
+//   &:hover{
+//     opacity: .8;
+//   }
+//   .sprite-image{
+//     object-fit: cover;
+//     height: ${`${TILE_SIZE}px`};
+//     width: ${`${TILE_SIZE}px`};
+//   }
+// `

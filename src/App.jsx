@@ -47,11 +47,7 @@ class App extends Component {
       }
     })
     if (sentEntity)
-      return (<Entity tile={sentEntity.type} key={sentEntity.id + 'tile'}>
-        {sentEntity.img ? (
-          <img className='sprite-image' src={sentEntity.img} alt="" />
-        ) : sentEntity.char}
-      </Entity>)
+      return sentEntity
   };
 
 
@@ -62,15 +58,26 @@ class App extends Component {
       <div className="App" >
         <TileContainer className='tiles'>
           {editTiles ? editTiles.map(t => {
-            return (
-              <Tile tile={t.tile.name} key={t.id}>
-                {/* conditionally render image */}
-                {t.tile.img ? (
-                  <img className='sprite-image' src={t.tile.img} alt="" />
-                ) : t.tile.char}
-                {editEntities ? this.produceEntityOnScreen(t.id) : null}
-              </Tile>
-            )
+            if (this.produceEntityOnScreen(t.id)) {
+              const ent = this.produceEntityOnScreen(t.id)
+              return (
+                <Tile tile={ent.type} key={ent.id}>
+                  {/* conditionally render image */}
+                  {ent.img ? (
+                    <img className='sprite-image' src={ent.img} alt="" />
+                  ) : ent.char}
+                </Tile>
+              )
+            } else {
+              return (
+                <Tile tile={t.tile.name} key={t.id}>
+                  {/* conditionally render image */}
+                  {t.tile.img ? (
+                    <img className='sprite-image' src={t.tile.img} alt="" />
+                  ) : t.tile.char}
+                </Tile>
+              )
+            }
           }) : null}
         </TileContainer>
       </div >
