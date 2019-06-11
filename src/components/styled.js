@@ -41,7 +41,7 @@ export const Tile = styled.div`
   }
 `
 export const Entity = styled.div`
-  font-size: ${`${TILE_SIZE * .8}px`};
+  font-size: ${`${TILE_SIZE}px`};
   height: ${`${TILE_SIZE}px`};
   width: ${`${TILE_SIZE}px`};
   color: ${props => {
@@ -54,7 +54,14 @@ export const Entity = styled.div`
         break;
     }
   }};
+  overflow: hidden;
   &:hover{
     opacity: .8;
+  }
+  .sprite-image{
+    z-index: 100;
+    object-fit: cover;
+    height: 50px;
+    width: 50px;
   }
 `

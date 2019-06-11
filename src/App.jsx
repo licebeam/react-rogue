@@ -25,7 +25,7 @@ class App extends Component {
   //PLAYER KEYS
   fireKey = (event) => {
     const { editEntities, editTiles } = this.state;
-    let Player = editEntities.find(ent => ent.sprite === 'player')
+    let Player = editEntities.find(ent => ent.type === 'player')
     if (event.key === 'ArrowUp') {
       this.setState({ editEntities: changePlayerPosition(Player, editEntities, -(MAX_WORLD_WIDTH), editTiles) })
     }
@@ -51,7 +51,13 @@ class App extends Component {
               <Tile tile={tile.tile}>
                 {editEntities ? editEntities.map(ent => {
                   if (ent.id === tile.id) {
-                    return (<Entity tile={ent.sprite}>{ent.char}</Entity>)
+                    return (
+                      <Entity tile={ent.type}>
+                        {/* conditionally render image or character */}
+                        {ent.img ? (
+                          <img className='sprite-image' src={ent.img} alt="" />
+                        ) : ent.char}
+                      </Entity>)
                   }
                 }) : null}
               </Tile>
