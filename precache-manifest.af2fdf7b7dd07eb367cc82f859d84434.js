@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ba11f087fcc0f06f4b0f81509bb9581f",
+    "revision": "bbc8f9bba379a6659479d02290d5a3d7",
     "url": "/react-rogue/index.html"
   },
   {
