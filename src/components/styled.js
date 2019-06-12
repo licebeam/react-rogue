@@ -31,6 +31,9 @@ export const Tile = styled.div`
         return 'black'
       case 'rat':
         return 'black'
+      //ITEMS
+      case 'apple':
+        return 'green'
       default:
         break;
     }
@@ -51,6 +54,9 @@ export const Tile = styled.div`
         return 'orange'
       case 'rat':
         return 'red'
+      //ITEMS
+      case 'apple':
+        return 'orange'
       default:
         break;
     }

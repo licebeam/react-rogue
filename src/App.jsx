@@ -68,7 +68,18 @@ class App extends Component {
                   ) : ent.char}
                 </Tile>
               )
-            } else {
+            }
+            else if (t.contains) {
+              return (
+                <Tile tile={t.contains.name} key={t.id}>
+                  {/* conditionally render image */}
+                  {t.contains.img ? (
+                    <img className='sprite-image' src={t.contains.img} alt="" />
+                  ) : t.contains.char}
+                </Tile>
+              )
+            }
+            else {
               return (
                 <Tile tile={t.tile.name} key={t.id}>
                   {/* conditionally render image */}

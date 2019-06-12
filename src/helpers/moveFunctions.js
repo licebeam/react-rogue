@@ -13,7 +13,7 @@ export const changePlayerPosition = (player, entities, move, tiles) => {
   const nextTile = tiles.find(t => t.id === (player.id + move))
   const nextEntity = entities.find(e => e.id === (nextTile.id))
   const newEntities = entities.map(ent => {
-    if (nextTile && ent.id === player.id && !checkNextTileCollide(nextTile.tile.name) && !nextEntity) {
+    if (nextTile && ent.id === player.id && !checkNextTileCollide(nextTile.tile ? nextTile.tile.name : nextTile.contains.name) && !nextEntity) {
       ent.id += move
     }
     return ent

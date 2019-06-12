@@ -1,5 +1,6 @@
 import { MAX_WORLD_WIDTH, MAX_WORLD_HEIGHT } from "../constants/constants";
 import { tileTypes } from '../data/tileTypes';
+import { itemTypes } from '../data/itemTypes';
 
 export const tileGenerator = roomSize => {
   let room = [];
@@ -27,6 +28,13 @@ export const tileGenerator = roomSize => {
   }
   room = addRandomTiles(room, 'rock')
   room = addRandomTiles(room, 'tree')
+  room = addRandomTiles(room, 'rock')
+  room = addRandomTiles(room, 'tree')
+  room = addRandomTiles(room, 'rock')
+  room = addRandomTiles(room, 'tree')
+  room = addRandomItems(room)
+  room = addRandomItems(room)
+  room = addRandomItems(room)
   return room;
 }
 
@@ -36,6 +44,19 @@ export const addRandomTiles = (curRoom, type) => {
     if (t.tile.name !== 'wall') {
       if (t.id === (randomTile + 1) || (t.id === (randomTile - 1) || t.id === randomTile)) {
         return { id: t.id, tile: tileTypes[type] }
+      } else return t
+    } else return t
+  })
+  return mappedTiles;
+}
+
+export const addRandomItems = (curRoom) => {
+  const mappedTiles = curRoom.map(t => {
+    const type = t.tile.name;
+    let randomTile = Math.floor(Math.random() * (MAX_WORLD_HEIGHT - 1 + 1)) + 1;
+    if (t.tile.name !== 'wall') {
+      if (t.id === (randomTile + 1) || (t.id === (randomTile - 1) || t.id === randomTile)) {
+        return { id: t.id, tile: tileTypes[type], contains: itemTypes.apple } // change to object
       } else return t
     } else return t
   })
