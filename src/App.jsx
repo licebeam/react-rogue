@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { MAX_WORLD_WIDTH, MAX_WORLD_HEIGHT } from './constants/constants';
-import { entities } from './TestData/entities';
 import { TileContainer, Tile } from './components/styled';
 import { tileGenerator } from './helpers/tileFunctions';
 import { changePlayerPosition } from './helpers/moveFunctions';
