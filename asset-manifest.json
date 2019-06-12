@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/react-rogue/static/css/main.25626605.chunk.css",
-    "main.js": "/react-rogue/static/js/main.4f290b5d.chunk.js",
-    "main.js.map": "/react-rogue/static/js/main.4f290b5d.chunk.js.map",
+    "main.js": "/react-rogue/static/js/main.e6b5db51.chunk.js",
+    "main.js.map": "/react-rogue/static/js/main.e6b5db51.chunk.js.map",
     "runtime~main.js": "/react-rogue/static/js/runtime~main.d3070e8c.js",
     "runtime~main.js.map": "/react-rogue/static/js/runtime~main.d3070e8c.js.map",
-    "static/js/2.0746c7cd.chunk.js": "/react-rogue/static/js/2.0746c7cd.chunk.js",
-    "static/js/2.0746c7cd.chunk.js.map": "/react-rogue/static/js/2.0746c7cd.chunk.js.map",
+    "static/js/2.30eb3fc4.chunk.js": "/react-rogue/static/js/2.30eb3fc4.chunk.js",
+    "static/js/2.30eb3fc4.chunk.js.map": "/react-rogue/static/js/2.30eb3fc4.chunk.js.map",
     "index.html": "/react-rogue/index.html",
-    "precache-manifest.1f3cbb935cd191cf5d06100e73f865a9.js": "/react-rogue/precache-manifest.1f3cbb935cd191cf5d06100e73f865a9.js",
+    "precache-manifest.6cf0aa1c0f08609e5ded998849f587fe.js": "/react-rogue/precache-manifest.6cf0aa1c0f08609e5ded998849f587fe.js",
     "service-worker.js": "/react-rogue/service-worker.js",
     "static/css/main.25626605.chunk.css.map": "/react-rogue/static/css/main.25626605.chunk.css.map"
   }
