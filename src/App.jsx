@@ -4,6 +4,7 @@ import { TileContainer, Tile } from './components/styled';
 import { tileGenerator } from './helpers/tileFunctions';
 import { changePlayerPosition } from './helpers/moveFunctions';
 import { flatten } from 'lodash';
+import { entityTypes } from './data/entityTypes';
 
 class App extends Component {
   state = {
@@ -90,10 +91,11 @@ class App extends Component {
 
   entityGenerator = (curRoom, roomId) => {
     const entities = curRoom.map(t => {
-      let randomTile = Math.floor(Math.random() * (MAX_WORLD_HEIGHT - 1 + 1)) + 1;
+      let randomEntity = Math.floor(Math.random() * (entityTypes.length)) + 0;
+      let randomTile = Math.floor(Math.random() * (MAX_WORLD_HEIGHT)) + 1;
       if (t.tile.name !== 'wall') {
         if (t.id === randomTile) {
-          return { roomId, id: t.id, entity: { type: 'rat', char: 'o', img: null } } // change to object
+          return { roomId, id: t.id, entity: entityTypes[randomEntity] } // change to object
         } else return null
       } else return null
     })
