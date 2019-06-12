@@ -10,6 +10,7 @@ export const checkNextTileCollide = nextTile => {
 }
 
 export const changePlayerPosition = (player, entities, move, tiles) => {
+  console.log(entities)
   const nextTile = tiles.find(t => t.id === (player.id + move))
   const nextEntity = entities.find(e => e.id === (nextTile.id))
   const newEntities = entities.map(ent => {

@@ -8,7 +8,6 @@ import { flatten } from 'lodash';
 
 class App extends Component {
   state = {
-    editEntities: entities,
     currentRoom: [],
     currentRoomId: 0,
     allRooms: [],
@@ -37,7 +36,8 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    const playerLocation = this.state.editEntities.find(e => e.type === 'player').id;
+    const { allEntities } = this.state;
+    const playerLocation = allEntities.length && allEntities.find(e => e.entity.type === 'player').id;
     const downLocation = this.state.currentRoom.room && this.state.currentRoom.room.find(t => t.tile.name === 'portal').id;
     if (playerLocation === downLocation && this.state.loading === false) {
       console.log('test down')
@@ -46,12 +46,12 @@ class App extends Component {
   }
 
   generateRooms = (roomSize, roomAmount) => {
-    const { editEntities } = this.state;
+    const { allEntities } = this.state;
     var rooms = []
     var entities = []
     var i = 0;
     const currentFloorStairLoc = rooms.length && rooms[i].find(t => t.tile.name === 'portal').id || null;
-    const currentFloorPlayerLoc = editEntities.find(en => en.type === 'player').id || null
+    const currentFloorPlayerLoc = allEntities.length && allEntities.find(en => en.entity.type === 'player').id || null
     for (i = 0; i < roomAmount; i++) {
       rooms.push({ roomId: i, room: tileGenerator(roomSize, currentFloorStairLoc, currentFloorPlayerLoc) });
     }
@@ -59,34 +59,39 @@ class App extends Component {
       //Generate All Entities for floor.
       var k = 0;
       for (k = 0; k < roomAmount; k++) {
+        if (k === 0) {
+          entities.push(this.addPlayerOnStart(this.state.allRooms[k].room));
+        }
         entities.push(this.entityGenerator(this.state.allRooms[k].room, k));
       }
+      console.log(entities)
       this.setState({ allEntities: flatten(entities) })
     })
   }
 
   //PLAYER KEYS
   fireKey = (event) => {
-    const { editEntities, currentRoom } = this.state;
-    let Player = editEntities.find(ent => ent.type === 'player')
+    const { allEntities, currentRoom } = this.state;
+    let Player = allEntities.find(ent => ent.entity.type === 'player')
+    console.log(Player);
     if (event.key === 'ArrowUp') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -(MAX_WORLD_WIDTH), currentRoom.room) })
+      this.setState({ editEntities: changePlayerPosition(Player, allEntities, -(MAX_WORLD_WIDTH), currentRoom.room) })
     }
     if (event.key === 'ArrowDown') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, MAX_WORLD_WIDTH, currentRoom.room) })
+      this.setState({ editEntities: changePlayerPosition(Player, allEntities, MAX_WORLD_WIDTH, currentRoom.room) })
     }
     if (event.key === 'ArrowRight') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, 1, currentRoom.room) })
+      this.setState({ editEntities: changePlayerPosition(Player, allEntities, 1, currentRoom.room) })
     }
     if (event.key === 'ArrowLeft') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -1, currentRoom.room) })
+      this.setState({ editEntities: changePlayerPosition(Player, allEntities, -1, currentRoom.room) })
     }
   }
 
   entityGenerator = (curRoom, roomId) => {
     const entities = curRoom.map(t => {
       let randomTile = Math.floor(Math.random() * (MAX_WORLD_HEIGHT - 1 + 1)) + 1;
-      if (t.tile.name === 'ground') {
+      if (t.tile.name !== 'wall') {
         if (t.id === randomTile) {
           return { roomId, id: t.id, entity: { type: 'rat', char: 'o', img: null } } // change to object
         } else return null
@@ -94,6 +99,14 @@ class App extends Component {
     })
     const flattenedEntities = entities.filter(e => e)
     return flattenedEntities;
+  }
+
+  addPlayerOnStart = curRoom => {
+    const allGroundTiles = curRoom.filter(g => g.tile.name === 'ground')
+    var freeLocation = allGroundTiles[Math.floor(Math.random() * allGroundTiles.length)];
+    if (!freeLocation.contains) {
+      return { roomId: 0, id: freeLocation.id, entity: { type: 'player', char: '@', img: null } }
+    }
   }
 
   produceEntityOnScreen = tileId => {
@@ -107,10 +120,6 @@ class App extends Component {
     if (sentEntity)
       return sentEntity
   };
-
-  addPlayerOnStatr = (All) => {
-
-  }
 
   //RENDERS TILES AND ENTITIES
   render() {
