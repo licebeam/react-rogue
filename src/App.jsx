@@ -17,7 +17,6 @@ class App extends Component {
     playerTurn: true,
     othersTurn: false,
     currentTile: '',
-    keyPress: false,
   }
 
   //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
@@ -80,33 +79,25 @@ class App extends Component {
   }
 
   //PLAYER KEYS
-  fireKey = (event, key, checkHold) => {
-    const { allEntities, currentRoom, currentRoomId, keyPress } = this.state;
-    if (checkHold) {
-      //Checks if user is holding key
-      this.setState({ keyPress: true })
-    }
+  fireKey = (event, key) => {
+    const { allEntities, currentRoom, currentRoomId } = this.state;
     let Player = allEntities.find(ent => ent.entity.type === 'player')
-    if (event.key || key === 'ArrowUp' && keyPress === false) {
+    if (event.key || key === 'ArrowUp') {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, -(MAX_WORLD_WIDTH), currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-    if (event.key || key === 'ArrowDown' && keyPress === false) {
+    if (event.key || key === 'ArrowDown') {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, MAX_WORLD_WIDTH, currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-    if (event.key || key === 'ArrowRight' && keyPress === false) {
+    if (event.key || key === 'ArrowRight') {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, 1, currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-    if (event.key || key === 'ArrowLeft' && keyPress === false) {
+    if (event.key || key === 'ArrowLeft') {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, -1, currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-  }
-  //PLAYER KEYS
-  releaseKeys = () => {
-    this.setState({ keyPress: false })
   }
 
   updateTurn = () => {
