@@ -53,7 +53,7 @@ class App extends Component {
 
   //RENDERS TILES AND ENTITIES
   render() {
-    const { editTiles, editEntities } = this.state;
+    const { editTiles } = this.state;
     return (
       <div className="App" >
         <TileContainer className='tiles'>
