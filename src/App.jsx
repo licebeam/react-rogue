@@ -40,7 +40,6 @@ class App extends Component {
     const playerLocation = allEntities.length && allEntities.find(e => e.entity.type === 'player').id;
     const downLocation = this.state.currentRoom.room && this.state.currentRoom.room.find(t => t.tile.name === 'portal').id;
     if (playerLocation === downLocation && this.state.loading === false) {
-      console.log('test down')
       this.changeRooms();
     }
   }
@@ -64,27 +63,26 @@ class App extends Component {
         }
         entities.push(this.entityGenerator(this.state.allRooms[k].room, k));
       }
-      console.log(entities)
       this.setState({ allEntities: flatten(entities) })
     })
   }
 
   //PLAYER KEYS
   fireKey = (event) => {
-    const { allEntities, currentRoom } = this.state;
+    const { allEntities, currentRoom, currentRoomId } = this.state;
     let Player = allEntities.find(ent => ent.entity.type === 'player')
     console.log(Player);
     if (event.key === 'ArrowUp') {
-      this.setState({ editEntities: changePlayerPosition(Player, allEntities, -(MAX_WORLD_WIDTH), currentRoom.room) })
+      this.setState({ editEntities: changePlayerPosition(Player, allEntities, -(MAX_WORLD_WIDTH), currentRoom.room, currentRoomId) })
     }
     if (event.key === 'ArrowDown') {
-      this.setState({ editEntities: changePlayerPosition(Player, allEntities, MAX_WORLD_WIDTH, currentRoom.room) })
+      this.setState({ editEntities: changePlayerPosition(Player, allEntities, MAX_WORLD_WIDTH, currentRoom.room, currentRoomId) })
     }
     if (event.key === 'ArrowRight') {
-      this.setState({ editEntities: changePlayerPosition(Player, allEntities, 1, currentRoom.room) })
+      this.setState({ editEntities: changePlayerPosition(Player, allEntities, 1, currentRoom.room, currentRoomId) })
     }
     if (event.key === 'ArrowLeft') {
-      this.setState({ editEntities: changePlayerPosition(Player, allEntities, -1, currentRoom.room) })
+      this.setState({ editEntities: changePlayerPosition(Player, allEntities, -1, currentRoom.room, currentRoomId) })
     }
   }
 
