@@ -31,6 +31,8 @@ export const Tile = styled.div`
         return 'black'
       case 'rat':
         return 'black'
+      case 'cat':
+        return 'black'
       //ITEMS
       case 'apple':
         return 'green'
@@ -58,6 +60,8 @@ export const Tile = styled.div`
         return 'orange'
       case 'rat':
         return 'red'
+      case 'cat':
+        return 'brown'
       //ITEMS
       case 'apple':
         return 'red'
