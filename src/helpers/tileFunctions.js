@@ -3,7 +3,7 @@ import { tileTypes } from '../data/tileTypes';
 import { itemTypes } from '../data/itemTypes';
 
 
-export const tileGenerator = (roomSize, currentFloorStairLoc, currentFloorPlayerLoc) => {
+export const tileGenerator = (roomSize, currentFloorPlayerLoc) => {
   let room = [];
   var i;
   const MAX_ROW_LEN = MAX_WORLD_WIDTH;
@@ -37,7 +37,7 @@ export const tileGenerator = (roomSize, currentFloorStairLoc, currentFloorPlayer
   room = addRandomItems(room)
   room = addRandomItems(room)
   //add door
-  room = addStairs(room, 'portal')
+  room = addStairs(room, 'portal', currentFloorPlayerLoc)
   return room;
 }
 
@@ -66,15 +66,14 @@ export const addRandomItems = (curRoom) => {
   return mappedTiles;
 }
 
-export const addStairs = (curRoom, type) => {
+export const addStairs = (curRoom, type, currentFloorPlayerLoc) => {
   let newTiles = curRoom;
   const allGroundTiles = curRoom.filter(g => g.tile.name === 'ground')
   var freeLocation = allGroundTiles[Math.floor(Math.random() * allGroundTiles.length)];
   const freeLocationIndex = newTiles.indexOf(freeLocation)
-  if (freeLocation.contains) {
+  if (freeLocation.contains || freeLocation.id === currentFloorPlayerLoc) {
     return addStairs(curRoom, type);
   }
-  console.log(freeLocationIndex)
   newTiles[freeLocationIndex].tile = tileTypes[type];
   return newTiles;
 }
