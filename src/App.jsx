@@ -17,6 +17,7 @@ class App extends Component {
     playerTurn: true,
     othersTurn: false,
     currentTile: '',
+    keyPress: false,
   }
 
   //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
@@ -26,7 +27,10 @@ class App extends Component {
     })
     document.addEventListener('DOMContentLoaded', () => {
       document.addEventListener('keydown', event => {
-        this.fireKey(event)
+        this.fireKey(event, false, true)
+      });
+      document.addEventListener('keyup', event => {
+        this.releaseKeys(event)
       });
     });
   }
@@ -76,25 +80,34 @@ class App extends Component {
   }
 
   //PLAYER KEYS
-  fireKey = (event, key) => {
-    const { allEntities, currentRoom, currentRoomId } = this.state;
+  fireKey = (event, key, checkHold) => {
+    const { allEntities, currentRoom, currentRoomId, keyPress } = this.state;
+    if (checkHold) {
+      //Checks if user is holding key
+      this.setState({ keyPress: true })
+    }
     let Player = allEntities.find(ent => ent.entity.type === 'player')
-    if (event.key || key === 'ArrowUp') {
+    if (key === 'ArrowUp' || event.key === 'ArrowUp' && keyPress === false) {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, -(MAX_WORLD_WIDTH), currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-    if (event.key || key === 'ArrowDown') {
+    if (key === 'ArrowDown' || event.key === 'ArrowDown' && keyPress === false) {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, MAX_WORLD_WIDTH, currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-    if (event.key || key === 'ArrowRight') {
+    if (key === 'ArrowRight' || event.key === 'ArrowRight' && keyPress === false) {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, 1, currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-    if (event.key || key === 'ArrowLeft') {
+    if (key === 'ArrowLeft' || event.key === 'ArrowLeft' && keyPress === false) {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, -1, currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
+  }
+  //PLAYER KEYS
+  releaseKeys = () => {
+    console.log('test')
+    this.setState({ keyPress: false })
   }
 
   updateTurn = () => {
@@ -185,10 +198,10 @@ class App extends Component {
         <div>player: {playerTurn.toString()}</div>
         <div>currentTile:{JSON.stringify(currentTile)}</div>
 
-        <button onClick={() => this.fireKey(false, 'ArrowUp')}>up</button>
-        <button onClick={() => this.fireKey(false, 'ArrowDown')}>Down</button>
-        <button onClick={() => this.fireKey(false, 'ArrowLeft')}>Left</button>
-        <button onClick={() => this.fireKey(false, 'ArrowRight')}>Right</button>
+        <button onClick={() => this.fireKey(false, 'ArrowUp', false)}>up</button>
+        <button onClick={() => this.fireKey(false, 'ArrowDown', false)}>Down</button>
+        <button onClick={() => this.fireKey(false, 'ArrowLeft', false)}>Left</button>
+        <button onClick={() => this.fireKey(false, 'ArrowRight', false)}>Right</button>
       </div >
     );
   }
