@@ -27,7 +27,7 @@ export const Tile = styled.div`
         return 'darkgreen'
       case 'player':
         return 'black'
-      case 'apple':
+      case 'rat':
         return 'black'
       default:
         break;
@@ -46,7 +46,7 @@ export const Tile = styled.div`
 
       case 'player':
         return 'orange'
-      case 'apple':
+      case 'rat':
         return 'red'
       default:
         break;
