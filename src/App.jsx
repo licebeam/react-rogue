@@ -86,8 +86,8 @@ class App extends Component {
   entityGenerator = (curRoom, roomId) => {
     const entities = curRoom.map(t => {
       let randomTile = Math.floor(Math.random() * (MAX_WORLD_HEIGHT - 1 + 1)) + 1;
-      if (t.tile.name !== 'wall') {
-        if (t.id === (randomTile + 1) || (t.id === (randomTile - 1) || t.id === randomTile)) {
+      if (t.tile.name === 'ground') {
+        if (t.id === randomTile) {
           return { roomId, id: t.id, entity: { type: 'rat', char: 'o', img: null } } // change to object
         } else return null
       } else return null
@@ -98,7 +98,7 @@ class App extends Component {
 
   produceEntityOnScreen = tileId => {
     const { allEntities, currentRoomId } = this.state;
-    console.log(allEntities)
+    // console.log(allEntities)
     const sentEntity = allEntities.find(ent => {
       if (ent.id === tileId && currentRoomId === ent.roomId) {
         return ent.entity
@@ -108,6 +108,9 @@ class App extends Component {
       return sentEntity
   };
 
+  addPlayerOnStatr = (All) => {
+
+  }
 
   //RENDERS TILES AND ENTITIES
   render() {
