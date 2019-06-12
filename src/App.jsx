@@ -188,10 +188,10 @@ class App extends Component {
         <div>player: {playerTurn.toString()}</div>
         <div>currentTile:{JSON.stringify(currentTile)}</div>
 
-        <button onClick={() => this.fireKey(false, 'ArrowUp', false)}>up</button>
-        <button onClick={() => this.fireKey(false, 'ArrowDown', false)}>Down</button>
-        <button onClick={() => this.fireKey(false, 'ArrowLeft', false)}>Left</button>
-        <button onClick={() => this.fireKey(false, 'ArrowRight', false)}>Right</button>
+        <button onClick={() => this.fireKey(false, 'ArrowUp')}>up</button>
+        <button onClick={() => this.fireKey(false, 'ArrowDown')}>Down</button>
+        <button onClick={() => this.fireKey(false, 'ArrowLeft')}>Left</button>
+        <button onClick={() => this.fireKey(false, 'ArrowRight')}>Right</button>
       </div >
     );
   }
