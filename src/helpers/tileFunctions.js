@@ -35,6 +35,8 @@ export const tileGenerator = roomSize => {
   room = addRandomItems(room)
   room = addRandomItems(room)
   room = addRandomItems(room)
+  //add door
+  room = addDoors(room, 'portal')
   return room;
 }
 
@@ -58,6 +60,21 @@ export const addRandomItems = (curRoom) => {
       if (t.id === (randomTile + 1) || (t.id === (randomTile - 1) || t.id === randomTile)) {
         return { id: t.id, tile: tileTypes[type], contains: itemTypes.apple } // change to object
       } else return t
+    } else return t
+  })
+  return mappedTiles;
+}
+
+export const addDoors = (curRoom, type) => {
+  const allOutsideWalls = curRoom.map(t => {
+    if (t.tile.name === 'wall') {
+      return t.id;
+    }
+  });
+  const randomWallId = allOutsideWalls[allOutsideWalls.length - 1] - allOutsideWalls.length / 2; //NEEDS RANDOM
+  const mappedTiles = curRoom.map(t => {
+    if (t.tile.name === 'wall' && t.id === randomWallId) {
+      return { id: t.id, tile: tileTypes[type], contains: null }
     } else return t
   })
   return mappedTiles;
