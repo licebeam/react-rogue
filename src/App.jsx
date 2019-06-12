@@ -16,7 +16,7 @@ class App extends Component {
 
   //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
   componentDidMount() {
-    this.setState({ rooms: this.generateRooms(MAX_WORLD_HEIGHT, 10) }, () => {
+    this.setState({ rooms: this.generateRooms(MAX_WORLD_HEIGHT, 11) }, () => { //AMOUNT OF ROOMS IS -1;
       this.setState({ currentRoom: this.state.allRooms[this.state.currentRoomId] })
     })
     document.addEventListener('DOMContentLoaded', () => {
@@ -28,22 +28,30 @@ class App extends Component {
 
   changeRooms = () => {
     if (this.state.currentRoomId < this.state.allRooms.length - 1)
-      this.setState({ currentRoom: this.state.allRooms[this.state.currentRoomId + 1], loading: true })
+      this.setState({ currentRoomId: this.state.currentRoomId + 1, loading: true }, () => {
+        console.log(this.state.currentRoomId)
+        this.setState({ currentRoom: this.state.allRooms[this.state.currentRoomId], loading: false })
+      })
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const playerLocation = this.state.editEntities.find(e => e.type === 'player').id || null;
-    const downLocation = this.state.currentRoom.room && this.state.currentRoom.room.find(t => t.tile.name === 'portal').id || null;
+  componentDidUpdate() {
+    const playerLocation = this.state.editEntities.find(e => e.type === 'player').id;
+    const downLocation = this.state.currentRoom.room && this.state.currentRoom.room.find(t => t.tile.name === 'portal').id;
     if (playerLocation === downLocation && this.state.loading === false) {
+      console.log('test down')
       this.changeRooms();
     }
   }
 
   generateRooms = (roomSize, roomAmount) => {
+    const { editEntities } = this.state;
     var rooms = []
     var i = 0;
+    const currentFloorStairLoc = rooms.length && rooms[i].find(t => t.tile.name === 'portal').id || null;
+    const currentFloorPlayerLoc = editEntities.find(en => en.type === 'player').id || null
+    console.log(currentFloorPlayerLoc, currentFloorStairLoc)
     for (i = 0; i < roomAmount; i++) {
-      rooms.push({ roomId: i, room: tileGenerator(roomSize) });
+      rooms.push({ roomId: i, room: tileGenerator(roomSize, currentFloorStairLoc, currentFloorPlayerLoc) });
     }
     return this.setState({ allRooms: rooms })
   }

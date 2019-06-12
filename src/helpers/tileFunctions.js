@@ -3,7 +3,7 @@ import { tileTypes } from '../data/tileTypes';
 import { itemTypes } from '../data/itemTypes';
 
 
-export const tileGenerator = roomSize => {
+export const tileGenerator = (roomSize, currentFloorStairLoc, currentFloorPlayerLoc) => {
   let room = [];
   var i;
   const MAX_ROW_LEN = MAX_WORLD_WIDTH;
@@ -74,6 +74,7 @@ export const addStairs = (curRoom, type) => {
   if (freeLocation.contains) {
     return addStairs(curRoom, type);
   }
+  console.log(freeLocationIndex)
   newTiles[freeLocationIndex].tile = tileTypes[type];
   return newTiles;
 }
