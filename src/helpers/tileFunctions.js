@@ -56,10 +56,11 @@ export const addRandomTiles = (curRoom, type) => {
 export const addRandomItems = (curRoom) => {
   const mappedTiles = curRoom.map(t => {
     const type = t.tile.name;
-    let randomTile = Math.floor(Math.random() * (MAX_WORLD_HEIGHT - 1 + 1)) + 1;
+    let randomItem = Math.floor(Math.random() * (itemTypes.length)) + 0;
+    let randomTile = Math.floor(Math.random() * (MAX_WORLD_HEIGHT)) + 1;
     if (t.tile.name !== 'wall') {
       if (t.id === (randomTile + 1) || (t.id === (randomTile - 1) || t.id === randomTile)) {
-        return { id: t.id, tile: tileTypes[type], contains: itemTypes.apple } // change to object
+        return { id: t.id, tile: tileTypes[type], contains: itemTypes[randomItem] } // change to object
       } else return t
     } else return t
   })

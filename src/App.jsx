@@ -74,7 +74,6 @@ class App extends Component {
   fireKey = (event) => {
     const { allEntities, currentRoom, currentRoomId } = this.state;
     let Player = allEntities.find(ent => ent.entity.type === 'player')
-    console.log(Player);
     if (event.key === 'ArrowUp') {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, -(MAX_WORLD_WIDTH), currentRoom.room, currentRoomId) })
     }
