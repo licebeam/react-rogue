@@ -13,6 +13,9 @@ class App extends Component {
     allRooms: [],
     allEntities: [],
     loading: false,
+    currentTurn: 0,
+    playerTurn: true,
+    othersTurn: false,
   }
 
   //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
@@ -77,18 +80,25 @@ class App extends Component {
     let Player = allEntities.find(ent => ent.entity.type === 'player')
     if (event.key === 'ArrowUp') {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, -(MAX_WORLD_WIDTH), currentRoom.room, currentRoomId) })
+      this.updateTurn()
     }
     if (event.key === 'ArrowDown') {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, MAX_WORLD_WIDTH, currentRoom.room, currentRoomId) })
+      this.updateTurn()
     }
     if (event.key === 'ArrowRight') {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, 1, currentRoom.room, currentRoomId) })
+      this.updateTurn()
     }
     if (event.key === 'ArrowLeft') {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, -1, currentRoom.room, currentRoomId) })
+      this.updateTurn()
     }
-  }
 
+  }
+  updateTurn = () => {
+    this.setState({ playerTurn: !this.state.playerTurn, currentTurn: this.state.currentTurn + 1 })
+  }
   entityGenerator = (curRoom, roomId) => {
     const entities = curRoom.map(t => {
       let randomEntity = Math.floor(Math.random() * (entityTypes.length)) + 0;
@@ -128,7 +138,7 @@ class App extends Component {
 
   //RENDERS TILES AND ENTITIES
   render() {
-    const { currentRoom } = this.state;
+    const { currentRoom, currentTurn, playerTurn } = this.state;
     return (
       <div className="App" >
         <TileContainer className='tiles'>
@@ -166,6 +176,8 @@ class App extends Component {
             }
           }) : null}
         </TileContainer>
+        <div>{currentTurn}</div>
+        <div>player: {playerTurn.toString()}</div>
       </div >
     );
   }
