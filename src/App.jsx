@@ -30,17 +30,21 @@ class App extends Component {
   changeRooms = () => {
     if (this.state.currentRoomId < this.state.allRooms.length - 1)
       this.setState({ currentRoomId: this.state.currentRoomId + 1, loading: true }, () => {
-        console.log(this.state.currentRoomId)
         this.setState({ currentRoom: this.state.allRooms[this.state.currentRoomId], loading: false })
       })
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     const { allEntities } = this.state;
     const playerLocation = allEntities.length && allEntities.find(e => e.entity.type === 'player').id;
     const downLocation = this.state.currentRoom.room && this.state.currentRoom.room.find(t => t.tile.name === 'portal').id;
     if (playerLocation === downLocation && this.state.loading === false) {
       this.changeRooms();
+    }
+    if (prevState.currentRoomId !== this.state.currentRoomId) {
+      let player = allEntities.find(ent => ent.entity.type === 'player')
+      const playerIndex = allEntities.indexOf(player)
+      this.setState({ allEntities: Object.assign([...allEntities], { [playerIndex]: { roomId: this.state.currentRoomId, id: player.id, entity: player.entity } }) })
     }
   }
 
@@ -103,7 +107,7 @@ class App extends Component {
     const allGroundTiles = curRoom.filter(g => g.tile.name === 'ground')
     var freeLocation = allGroundTiles[Math.floor(Math.random() * allGroundTiles.length)];
     if (!freeLocation.contains) {
-      return { roomId: 0, id: freeLocation.id, entity: { type: 'player', char: '@', img: null } }
+      return { roomId: this.state.currentRoomId, id: freeLocation.id, entity: { type: 'player', char: '@', img: null } }
     }
   }
 
@@ -111,7 +115,10 @@ class App extends Component {
     const { allEntities, currentRoomId } = this.state;
     // console.log(allEntities)
     const sentEntity = allEntities.find(ent => {
-      if (ent.id === tileId && currentRoomId === ent.roomId) {
+      if (ent.id === tileId && currentRoomId === ent.roomId && ent.type !== 'player') {
+        return ent.entity
+      }
+      if (ent.id === tileId && ent.type === 'player') {
         return ent.entity
       }
     })
