@@ -8,12 +8,17 @@ import { changePlayerPosition } from './helpers/moveFunctions';
 class App extends Component {
   state = {
     editEntities: entities,
-    editTiles: [],
+    currentRoom: [],
+    currentRoomId: 0,
+    allRooms: [],
+    loading: false,
   }
 
   //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
   componentDidMount() {
-    this.setState({ editTiles: tileGenerator(MAX_WORLD_HEIGHT) })
+    this.setState({ rooms: this.generateRooms(MAX_WORLD_HEIGHT, 10) }, () => {
+      this.setState({ currentRoom: this.state.allRooms[this.state.currentRoomId] })
+    })
     document.addEventListener('DOMContentLoaded', () => {
       document.addEventListener('keydown', event => {
         this.fireKey(event)
@@ -21,21 +26,43 @@ class App extends Component {
     });
   }
 
+  changeRooms = () => {
+    if (this.state.currentRoomId < this.state.allRooms.length - 1)
+      this.setState({ currentRoom: this.state.allRooms[this.state.currentRoomId + 1], loading: true })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const playerLocation = this.state.editEntities.find(e => e.type === 'player').id || null;
+    const downLocation = this.state.currentRoom.room && this.state.currentRoom.room.find(t => t.tile.name === 'portal').id || null;
+    if (playerLocation === downLocation && this.state.loading === false) {
+      this.changeRooms();
+    }
+  }
+
+  generateRooms = (roomSize, roomAmount) => {
+    var rooms = []
+    var i = 0;
+    for (i = 0; i < roomAmount; i++) {
+      rooms.push({ roomId: i, room: tileGenerator(roomSize) });
+    }
+    return this.setState({ allRooms: rooms })
+  }
+
   //PLAYER KEYS
   fireKey = (event) => {
-    const { editEntities, editTiles } = this.state;
+    const { editEntities, currentRoom } = this.state;
     let Player = editEntities.find(ent => ent.type === 'player')
     if (event.key === 'ArrowUp') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -(MAX_WORLD_WIDTH), editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -(MAX_WORLD_WIDTH), currentRoom.room) })
     }
     if (event.key === 'ArrowDown') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, MAX_WORLD_WIDTH, editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, MAX_WORLD_WIDTH, currentRoom.room) })
     }
     if (event.key === 'ArrowRight') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, 1, editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, 1, currentRoom.room) })
     }
     if (event.key === 'ArrowLeft') {
-      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -1, editTiles) })
+      this.setState({ editEntities: changePlayerPosition(Player, editEntities, -1, currentRoom.room) })
     }
   }
 
@@ -53,11 +80,11 @@ class App extends Component {
 
   //RENDERS TILES AND ENTITIES
   render() {
-    const { editTiles } = this.state;
+    const { currentRoom } = this.state;
     return (
       <div className="App" >
         <TileContainer className='tiles'>
-          {editTiles ? editTiles.map(t => {
+          {currentRoom.room ? currentRoom.room.map(t => {
             if (this.produceEntityOnScreen(t.id)) {
               const ent = this.produceEntityOnScreen(t.id)
               return (
