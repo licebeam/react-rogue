@@ -99,8 +99,9 @@ class App extends Component {
   }
 
   updateTurn = () => {
-    const { allEntities, currentRoomId, currentRoom } = this.state;
+    const { allEntities, currentRoom } = this.state;
     const playerLocation = allEntities.find(e => e.entity.type === 'player');
+    //this method also stores the current player tile every turn; 
     const playerTile = currentRoom.room.find(t => t.id === playerLocation.id)
     this.setState({ playerTurn: !this.state.playerTurn, currentTurn: this.state.currentTurn + 1, currentTile: playerTile })
   }
@@ -129,12 +130,11 @@ class App extends Component {
 
   produceEntityOnScreen = tileId => {
     const { allEntities, currentRoomId } = this.state;
-    // console.log(allEntities)
     const sentEntity = allEntities.find(ent => {
-      if (ent.id === tileId && currentRoomId === ent.roomId && ent.type !== 'player') {
+      if (ent && ent.id && ent.id === tileId && currentRoomId === ent.roomId && ent.type !== 'player') {
         return ent.entity
       }
-      if (ent.id === tileId && ent.type === 'player') {
+      if (ent && ent.id && ent.id === tileId && ent.type === 'player') {
         return ent.entity
       }
     })
