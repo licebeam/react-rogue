@@ -28,9 +28,6 @@ class App extends Component {
       document.addEventListener('keydown', event => {
         this.fireKey(event)
       });
-      document.addEventListener('keyup', event => {
-        this.releaseKeys(event)
-      });
     });
   }
 
