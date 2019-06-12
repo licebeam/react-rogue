@@ -80,23 +80,26 @@ class App extends Component {
   }
 
   //PLAYER KEYS
-  fireKey = (event) => {
+  fireKey = (event, key, checkHold) => {
     const { allEntities, currentRoom, currentRoomId, keyPress } = this.state;
-    this.setState({ keyPress: true })
+    if (checkHold) {
+      //Checks if user is holding key
+      this.setState({ keyPress: true })
+    }
     let Player = allEntities.find(ent => ent.entity.type === 'player')
-    if (event.key === 'ArrowUp' && keyPress === false) {
+    if (event.key || key === 'ArrowUp' && keyPress === false) {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, -(MAX_WORLD_WIDTH), currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-    if (event.key === 'ArrowDown' && keyPress === false) {
+    if (event.key || key === 'ArrowDown' && keyPress === false) {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, MAX_WORLD_WIDTH, currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-    if (event.key === 'ArrowRight' && keyPress === false) {
+    if (event.key || key === 'ArrowRight' && keyPress === false) {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, 1, currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
-    if (event.key === 'ArrowLeft' && keyPress === false) {
+    if (event.key || key === 'ArrowLeft' && keyPress === false) {
       this.setState({ editEntities: changePlayerPosition(Player, allEntities, -1, currentRoom.room, currentRoomId) })
       this.updateTurn()
     }
@@ -193,6 +196,11 @@ class App extends Component {
         <div>{currentTurn}</div>
         <div>player: {playerTurn.toString()}</div>
         <div>currentTile:{JSON.stringify(currentTile)}</div>
+
+        <button onClick={() => this.fireKey(false, 'ArrowUp', false)}>up</button>
+        <button onClick={() => this.fireKey(false, 'ArrowDown', false)}>Down</button>
+        <button onClick={() => this.fireKey(false, 'ArrowLeft', false)}>Left</button>
+        <button onClick={() => this.fireKey(false, 'ArrowRight', false)}>Right</button>
       </div >
     );
   }
