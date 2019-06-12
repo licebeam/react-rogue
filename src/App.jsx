@@ -16,6 +16,7 @@ class App extends Component {
     currentTurn: 0,
     playerTurn: true,
     othersTurn: false,
+    currentTile: '',
   }
 
   //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
@@ -96,9 +97,14 @@ class App extends Component {
     }
 
   }
+
   updateTurn = () => {
-    this.setState({ playerTurn: !this.state.playerTurn, currentTurn: this.state.currentTurn + 1 })
+    const { allEntities, currentRoomId, currentRoom } = this.state;
+    const playerLocation = allEntities.find(e => e.entity.type === 'player');
+    const playerTile = currentRoom.room.find(t => t.id === playerLocation.id)
+    this.setState({ playerTurn: !this.state.playerTurn, currentTurn: this.state.currentTurn + 1, currentTile: playerTile })
   }
+
   entityGenerator = (curRoom, roomId) => {
     const entities = curRoom.map(t => {
       let randomEntity = Math.floor(Math.random() * (entityTypes.length)) + 0;
@@ -138,7 +144,7 @@ class App extends Component {
 
   //RENDERS TILES AND ENTITIES
   render() {
-    const { currentRoom, currentTurn, playerTurn } = this.state;
+    const { currentRoom, currentTurn, currentTile, playerTurn } = this.state;
     return (
       <div className="App" >
         <TileContainer className='tiles'>
@@ -178,6 +184,7 @@ class App extends Component {
         </TileContainer>
         <div>{currentTurn}</div>
         <div>player: {playerTurn.toString()}</div>
+        <div>currentTile:{JSON.stringify(currentTile)}</div>
       </div >
     );
   }
