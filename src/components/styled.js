@@ -17,6 +17,7 @@ export const Tile = styled.div`
   width: ${`${TILE_SIZE}px`};
   background-color: ${props => {
     switch (props.tile) {
+      //TILES
       case 'wall':
         return 'black'
       case 'ground':
@@ -25,6 +26,7 @@ export const Tile = styled.div`
         return 'grey'
       case 'tree':
         return 'darkgreen'
+      //ENTITIES
       case 'player':
         return 'black'
       case 'rat':
@@ -35,6 +37,7 @@ export const Tile = styled.div`
   }};
     color: ${props => {
     switch (props.tile) {
+      //TILES
       case 'wall':
         return 'grey'
       case 'ground':
@@ -43,7 +46,7 @@ export const Tile = styled.div`
         return 'darkgrey'
       case 'tree':
         return 'green'
-
+      //ENTITIES
       case 'player':
         return 'orange'
       case 'rat':
