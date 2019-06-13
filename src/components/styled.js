@@ -22,6 +22,8 @@ export const Tile = styled.div`
         return 'black'
       case 'ground':
         return 'green'
+      case 'dirt':
+        return 'burlywood'
       case 'rock':
         return 'grey'
       case 'tree':
@@ -51,6 +53,8 @@ export const Tile = styled.div`
         return 'grey'
       case 'ground':
         return 'darkgreen'
+      case 'dirt':
+        return 'brown'
       case 'rock':
         return 'darkgrey'
       case 'tree':

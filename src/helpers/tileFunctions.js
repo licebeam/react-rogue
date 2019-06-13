@@ -33,6 +33,8 @@ export const tileGenerator = (roomSize, currentFloorPlayerLoc) => {
   room = addRandomTiles(room, 'tree')
   room = addRandomTiles(room, 'rock')
   room = addRandomTiles(room, 'tree')
+  room = addRandomTiles(room, 'dirt')
+  room = addRandomTiles(room, 'dirt')
   room = addRandomItems(room)
   room = addRandomItems(room)
   room = addRandomItems(room)
