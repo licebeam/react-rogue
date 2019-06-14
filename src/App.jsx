@@ -22,7 +22,7 @@ class App extends Component {
 
   //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
   componentDidMount() {
-    this.setState({ rooms: this.generateRooms(MAX_WORLD_HEIGHT, 11) }, () => { //AMOUNT OF ROOMS IS -1;
+    this.setState({ rooms: this.generateRooms(MAX_WORLD_HEIGHT, 1) }, () => { //AMOUNT OF ROOMS IS -1;
       this.setState({ currentRoom: this.state.allRooms[this.state.currentRoomId] })
     })
     document.addEventListener('DOMContentLoaded', () => {
@@ -132,7 +132,7 @@ class App extends Component {
   }
 
   addPlayerOnStart = curRoom => {
-    const allGroundTiles = curRoom.filter(g => g.tile.name === 'ground')
+    const allGroundTiles = curRoom.filter(g => g.tile.name === 'ground');
     var freeLocation = allGroundTiles[Math.floor(Math.random() * allGroundTiles.length)];
     if (freeLocation && !freeLocation.contains) {
       return { roomId: this.state.currentRoomId, id: freeLocation.id, entity: { type: 'player', char: '@', img: null } }
@@ -163,7 +163,7 @@ class App extends Component {
             if (this.produceEntityOnScreen(t.id)) {
               const ent = this.produceEntityOnScreen(t.id)
               return (
-                <Tile tile={ent.entity.type} key={ent.id}>
+                <Tile tile={ent.entity.type} key={ent.id + "ent" + Math.random()}>
                   {/* conditionally render image */}
                   {ent.entity.img ? (
                     <img className='sprite-image' src={ent.entity.img} alt="" />
@@ -173,7 +173,7 @@ class App extends Component {
             }
             else if (t.contains) {
               return (
-                <Tile tile={t.contains.name} key={t.id}>
+                <Tile tile={t.contains.name} key={t.id + "tile" + Math.random()}>
                   {/* conditionally render image */}
                   {t.contains.img ? (
                     <img className='sprite-image' src={t.contains.img} alt="" />
@@ -183,7 +183,7 @@ class App extends Component {
             }
             else {
               return (
-                <Tile tile={t.tile.name} key={t.id}>
+                <Tile tile={t.tile.name} key={t.id + "normal" + Math.random()}>
                   {/* conditionally render image */}
                   {t.tile.img ? (
                     <img className='sprite-image' src={t.tile.img} alt="" />

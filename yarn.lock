@@ -8372,6 +8372,11 @@ raf@3.4.1:
   dependencies:
     performance-now "^2.1.0"
 
+random-dungeon-generator@^1.0.32:
+  version "1.0.32"
+  resolved "https://registry.yarnpkg.com/random-dungeon-generator/-/random-dungeon-generator-1.0.32.tgz#73afe73c95aad239c7be1528d3cfa7bff24fe0c0"
+  integrity sha1-c6/nPJWq0jnHvhUo08+nv/JP4MA=
+
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.0.6.tgz#d302c522948588848a8d300c932b44c24231da80"
