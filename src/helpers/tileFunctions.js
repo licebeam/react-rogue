@@ -21,8 +21,8 @@ export const dungeonGenerator = (roomSize, currentFloorPlayerLoc) => {
   const dungeon = NewDungeon({
     width: MAX_TILES / 2,
     height: MAX_TILES / 2,
-    minRoomSize: 4,
-    maxRoomSize: 10
+    minRoomSize: 10,
+    maxRoomSize: 10,
   })
   let oldRoom = [];
 
