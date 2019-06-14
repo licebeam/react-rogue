@@ -6,7 +6,6 @@ import { flattenDeep } from 'lodash';
 
 const checkTileType = (tile, i, rowIndex) => {
   var rowMultiplier = rowIndex >= 1 ? (rowIndex * MAX_TILES / 2) - 1 : rowIndex;
-  console.log(rowMultiplier)
   switch (tile) {
     case 0:
       return { id: (i + 1) + rowMultiplier, tile: tileTypes.ground }

@@ -22,7 +22,7 @@ class App extends Component {
 
   //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
   componentDidMount() {
-    this.setState({ rooms: this.generateRooms(MAX_WORLD_HEIGHT, 1) }, () => { //AMOUNT OF ROOMS IS -1;
+    this.setState({ rooms: this.generateRooms(MAX_WORLD_HEIGHT, 11) }, () => { //AMOUNT OF ROOMS IS -1;
       this.setState({ currentRoom: this.state.allRooms[this.state.currentRoomId] })
     })
     document.addEventListener('DOMContentLoaded', () => {
