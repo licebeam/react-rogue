@@ -134,7 +134,7 @@ class App extends Component {
   addPlayerOnStart = curRoom => {
     const allGroundTiles = curRoom.filter(g => g.tile.name === 'ground');
     var freeLocation = allGroundTiles[Math.floor(Math.random() * allGroundTiles.length)];
-    if (freeLocation && !freeLocation.contains) {
+    if (!freeLocation.contains) {
       return { roomId: this.state.currentRoomId, id: freeLocation.id, entity: { type: 'player', char: '@', img: null } }
     }
   }
