@@ -27,8 +27,7 @@ export const dungeonGenerator = (roomSize, currentFloorPlayerLoc) => {
     }
   }
   //fill with walls
-
-  room = fillDungeon(room, 'ground')
+  room = fillDungeon(room, 'rock')
   room = addRandomTiles(room, 'ground')
   room = addRandomTiles(room, 'rock')
   room = addRandomTiles(room, 'tree')
@@ -79,7 +78,7 @@ export const addRandomItems = (curRoom) => {
 
 export const addStairs = (curRoom, type, currentFloorPlayerLoc) => {
   let newTiles = curRoom;
-  const allGroundTiles = curRoom.filter(g => g.tile.name === 'ground')
+  const allGroundTiles = curRoom.filter(g => g.tile.name === 'ground' || g.tile.name === 'rock')
   var freeLocation = allGroundTiles[Math.floor(Math.random() * allGroundTiles.length)];
   const freeLocationIndex = newTiles.indexOf(freeLocation)
   if (freeLocation.contains || freeLocation.id === currentFloorPlayerLoc) {

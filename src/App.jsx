@@ -106,7 +106,6 @@ class App extends Component {
   }
   //PLAYER KEYS
   releaseKeys = () => {
-    console.log('test')
     this.setState({ keyPress: false })
   }
 
