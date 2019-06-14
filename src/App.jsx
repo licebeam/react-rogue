@@ -26,10 +26,10 @@ class App extends Component {
       this.setState({ currentRoom: this.state.allRooms[this.state.currentRoomId] })
     })
     document.addEventListener('DOMContentLoaded', () => {
-      document.addEventListener('keydown', event => {
+      window.addEventListener('keydown', event => {
         this.fireKey(event, false, true)
       });
-      document.addEventListener('keyup', event => {
+      window.addEventListener('keyup', event => {
         this.releaseKeys(event)
       });
     });
