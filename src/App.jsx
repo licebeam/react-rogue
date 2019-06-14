@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MAX_WORLD_WIDTH, MAX_WORLD_HEIGHT } from './constants/constants';
 import { TileContainer, Tile } from './components/styled';
-import { tileGenerator } from './helpers/tileFunctions';
+import { dungeonGenerator } from './helpers/tileFunctions';
 import { changePlayerPosition } from './helpers/moveFunctions';
 import { flatten } from 'lodash';
 import { entityTypes } from './data/entityTypes';
@@ -43,9 +43,9 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { allEntities } = this.state;
+    const { allEntities, currentRoom } = this.state;
     const playerLocation = allEntities.length && allEntities.find(e => e.entity.type === 'player').id;
-    const downLocation = this.state.currentRoom.room && this.state.currentRoom.room.find(t => t.tile.name === 'portal').id;
+    const downLocation = currentRoom && currentRoom.room && currentRoom.room.find(t => t.tile.name === 'portal').id;
     if (playerLocation === downLocation && this.state.loading === false) {
       this.changeRooms();
     }
@@ -64,7 +64,7 @@ class App extends Component {
     const currentFloorStairLoc = rooms.length && rooms[i].find(t => t.tile.name === 'portal').id || null;
     const currentFloorPlayerLoc = allEntities.length && allEntities.find(en => en.entity.type === 'player').id || null
     for (i = 0; i < roomAmount; i++) {
-      rooms.push({ roomId: i, room: tileGenerator(roomSize, currentFloorStairLoc, currentFloorPlayerLoc) });
+      rooms.push({ roomId: i, room: dungeonGenerator(roomSize, currentFloorStairLoc, currentFloorPlayerLoc) });
     }
     return this.setState({ allRooms: rooms }, () => {
       //Generate All Entities for floor.
@@ -135,7 +135,7 @@ class App extends Component {
   addPlayerOnStart = curRoom => {
     const allGroundTiles = curRoom.filter(g => g.tile.name === 'ground')
     var freeLocation = allGroundTiles[Math.floor(Math.random() * allGroundTiles.length)];
-    if (!freeLocation.contains) {
+    if (freeLocation && !freeLocation.contains) {
       return { roomId: this.state.currentRoomId, id: freeLocation.id, entity: { type: 'player', char: '@', img: null } }
     }
   }
@@ -160,7 +160,7 @@ class App extends Component {
     return (
       <div className="App" >
         <TileContainer className='tiles'>
-          {currentRoom.room ? currentRoom.room.map(t => {
+          {currentRoom && currentRoom.room ? currentRoom.room.map(t => {
             if (this.produceEntityOnScreen(t.id)) {
               const ent = this.produceEntityOnScreen(t.id)
               return (

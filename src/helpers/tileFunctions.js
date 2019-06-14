@@ -2,8 +2,7 @@ import { MAX_WORLD_WIDTH, MAX_WORLD_HEIGHT } from "../constants/constants";
 import { tileTypes } from '../data/tileTypes';
 import { itemTypes } from '../data/itemTypes';
 
-
-export const tileGenerator = (roomSize, currentFloorPlayerLoc) => {
+export const dungeonGenerator = (roomSize, currentFloorPlayerLoc) => {
   let room = [];
   var i;
   const MAX_ROW_LEN = MAX_WORLD_WIDTH;
@@ -27,8 +26,10 @@ export const tileGenerator = (roomSize, currentFloorPlayerLoc) => {
       room.push({ id: i + 1, tile: tileTypes.ground })
     }
   }
-  room = addRandomTiles(room, 'rock')
-  room = addRandomTiles(room, 'tree')
+  //fill with walls
+
+  room = fillDungeon(room, 'ground')
+  room = addRandomTiles(room, 'ground')
   room = addRandomTiles(room, 'rock')
   room = addRandomTiles(room, 'tree')
   room = addRandomTiles(room, 'rock')
@@ -41,6 +42,13 @@ export const tileGenerator = (roomSize, currentFloorPlayerLoc) => {
   //add door
   room = addStairs(room, 'portal', currentFloorPlayerLoc)
   return room;
+}
+
+export const fillDungeon = (curRoom, type) => {
+  const mappedTiles = curRoom.map(t => {
+    return { id: t.id, tile: tileTypes[type] }
+  })
+  return mappedTiles;
 }
 
 export const addRandomTiles = (curRoom, type) => {
