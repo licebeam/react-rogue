@@ -189,17 +189,6 @@ class App extends Component {
     this.setState({ keyPress: false });
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.currentTurn !== nextState.currentTurn) {
-      return true;
-    } else if (this.state.loading !== nextState.loading) {
-      return true;
-    } else if (this.state.currentRoom !== nextState.currentRoom) {
-      return true;
-    }
-    return false;
-  }
-
   updateTurn = () => {
     const { allEntities, currentRoom } = this.state;
     const playerLocation = allEntities.find(e => e.entity.type === "player");
@@ -257,6 +246,20 @@ class App extends Component {
     });
     if (sentEntity) return sentEntity;
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    //THIS IS RENDERING CONTROL to prevent un-needed re-renders
+    if (this.state.currentTurn !== nextState.currentTurn) {
+      return true;
+    } else if (this.state.loading !== nextState.loading) {
+      return true;
+    } else if (this.state.currentRoom !== nextState.currentRoom) {
+      return true;
+    } else if (this.state.allEntities !== nextState.allEntities) {
+      return true;
+    }
+    return false;
+  }
 
   //RENDERS TILES AND ENTITIES
   render() {
