@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { MAX_WORLD_WIDTH, MAX_WORLD_HEIGHT } from "./constants/constants";
+import {
+  MAX_WORLD_WIDTH,
+  MAX_WORLD_HEIGHT,
+  MAX_TILES
+} from "./constants/constants";
 import styled from "styled-components";
 import { TileContainer, Tile } from "./components/styled";
 import { dungeonGenerator } from "./helpers/tileFunctions";
 import { changePlayerPosition } from "./helpers/moveFunctions";
 import { flatten } from "lodash";
 import { entityTypes } from "./data/entityTypes";
-import { italic } from "ansi-colors";
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -15,6 +18,10 @@ const Wrapper = styled.div`
   background-color: #000;
   color: #fff;
 `;
+const Controls = styled.div`
+  height: 200px;
+`;
+
 class App extends Component {
   state = {
     currentRoom: [],
@@ -204,7 +211,7 @@ class App extends Component {
   entityGenerator = (curRoom, roomId) => {
     const entities = curRoom.map(t => {
       let randomEntity = Math.floor(Math.random() * entityTypes.length) + 0;
-      let randomTile = Math.floor(Math.random() * MAX_WORLD_HEIGHT) + 1;
+      let randomTile = Math.floor(Math.random() * MAX_TILES) + 1;
       if (t.tile.name !== "wall") {
         if (t.id === randomTile) {
           return { roomId, id: t.id, entity: entityTypes[randomEntity] }; // change to object
@@ -216,7 +223,7 @@ class App extends Component {
   };
 
   addPlayerOnStart = curRoom => {
-    const allGroundTiles = curRoom.filter(g => g.tile.name === "ground");
+    const allGroundTiles = curRoom.filter(g => g.tile.name !== "wall"); //TODO: fix this so player is not on bad tile
     var freeLocation =
       allGroundTiles[Math.floor(Math.random() * allGroundTiles.length)];
     if (!freeLocation.contains) {
