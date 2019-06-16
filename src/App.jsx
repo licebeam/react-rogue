@@ -19,6 +19,29 @@ const Wrapper = styled.div`
   align-content: center;
 `;
 
+const Menu = styled.div`
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.7rem;
+  flex: 1;
+  .location {
+    height: 120px;
+    word-wrap: break-word;
+    padding: 10px;
+  }
+  .controls {
+    background-color: red;
+    button {
+      font-size: 0.4rem;
+      margin: 20px;
+      height: 20px;
+      width: 40px;
+      border: 2px solid black;
+    }
+  }
+`;
+
 class App extends Component {
   state = {
     currentRoom: [],
@@ -328,22 +351,28 @@ class App extends Component {
               })
             : null}
         </TileContainer>
-        <div>{currentTurn}</div>
-        <div>player: {playerTurn.toString()}</div>
-        <div>currentTile:{JSON.stringify(currentTile)}</div>
+        <Menu>
+          <div className="location">
+            <div>{currentTurn}</div>
+            <div>player: {playerTurn.toString()}</div>
+            <div>currentTile:{JSON.stringify(currentTile)}</div>
+          </div>
 
-        <button onClick={() => this.fireKey(false, "ArrowUp", false)}>
-          up
-        </button>
-        <button onClick={() => this.fireKey(false, "ArrowDown", false)}>
-          Down
-        </button>
-        <button onClick={() => this.fireKey(false, "ArrowLeft", false)}>
-          Left
-        </button>
-        <button onClick={() => this.fireKey(false, "ArrowRight", false)}>
-          Right
-        </button>
+          <div className="controls">
+            <button onClick={() => this.fireKey(false, "ArrowUp", false)}>
+              up
+            </button>
+            <button onClick={() => this.fireKey(false, "ArrowDown", false)}>
+              Down
+            </button>
+            <button onClick={() => this.fireKey(false, "ArrowLeft", false)}>
+              Left
+            </button>
+            <button onClick={() => this.fireKey(false, "ArrowRight", false)}>
+              Right
+            </button>
+          </div>
+        </Menu>
       </Wrapper>
     );
   }
