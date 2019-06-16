@@ -13,13 +13,6 @@ import { entityTypes } from "./data/entityTypes";
 
 const Wrapper = styled.div`
   margin: 0 auto;
-  width: 100%;
-  height: 100vh;
-  background-color: #000;
-  color: #fff;
-`;
-const Controls = styled.div`
-  height: 200px;
 `;
 
 class App extends Component {
@@ -225,7 +218,7 @@ class App extends Component {
   addPlayerOnStart = curRoom => {
     const allGroundTiles = curRoom.filter(g => g.tile.name !== "wall"); //TODO: fix this so player is not on bad tile
     var freeLocation =
-      allGroundTiles[Math.floor(Math.random() * allGroundTiles.length)];
+      allGroundTiles[Math.floor(Math.random() * allGroundTiles.length) + 1];
     if (!freeLocation.contains) {
       return {
         roomId: this.state.currentRoomId,
