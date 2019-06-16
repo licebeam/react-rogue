@@ -20,18 +20,20 @@ const Wrapper = styled.div`
 `;
 
 const Menu = styled.div`
+  align-content: center;
+  justify-content: center;
+  text-align: center;
   padding: 20px;
   display: flex;
   flex-direction: column;
   font-size: 0.7rem;
   flex: 1;
   .location {
-    height: 120px;
+    height: 80px;
     word-wrap: break-word;
     padding: 10px;
   }
   .controls {
-    background-color: red;
     button {
       font-size: 0.4rem;
       margin: 20px;
