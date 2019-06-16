@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { MAX_WORLD_WIDTH, TILE_SIZE } from "../constants/constants";
 
 export const TileContainer = styled.div`
+  align-self: center;
   display: grid;
   grid-template-columns: ${`repeat(${MAX_WORLD_WIDTH}, ${TILE_SIZE}px)`};
 `;

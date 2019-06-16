@@ -13,6 +13,10 @@ import { entityTypes } from "./data/entityTypes";
 
 const Wrapper = styled.div`
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
 `;
 
 class App extends Component {
