@@ -5,14 +5,7 @@ export const TileContainer = styled.div`
   align-self: center;
   display: grid;
   grid-template-columns: ${`repeat(${MAX_WORLD_WIDTH}, ${TILE_SIZE}px)`};
-  /* .lighting {
-    background-color: black;
-    z-index: 100;
-    height: ${`${(MAX_TILES / 2) * TILE_SIZE}px`};
-    width: ${`${(MAX_TILES / 2) * TILE_SIZE}px`};
-    clip-path: circle(40%);
-    position: absolute;
-  } */
+  overflow: hidden;
 `;
 
 export const Tile = styled.div`
@@ -96,9 +89,9 @@ export const Tile = styled.div`
         break;
     }
   }};
-  &:hover {
+  /* &:hover {
     opacity: 0.8;
-  }
+  } */
   .sprite-image {
     object-fit: cover;
     height: ${`${TILE_SIZE}px`};

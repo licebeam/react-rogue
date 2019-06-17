@@ -5,7 +5,7 @@ import {
   MAX_TILES
 } from "./constants/constants";
 import styled from "styled-components";
-import { TileContainer, Tile } from "./components/styled";
+import { TileContainer, Tile, Shadow, ShadowHolder } from "./components/styled";
 import { dungeonGenerator } from "./helpers/tileFunctions";
 import { changePlayerPosition } from "./helpers/moveFunctions";
 import { flatten } from "lodash";
@@ -296,13 +296,13 @@ class App extends Component {
     return (
       <Wrapper className="App">
         <TileContainer className="tiles">
-          <div className="lighting" />
           {currentRoom && currentRoom.room
             ? currentRoom.room.map(t => {
                 if (this.produceEntityOnScreen(t.id)) {
                   const ent = this.produceEntityOnScreen(t.id);
                   return (
                     <Tile
+                      id={ent.entity.type === "player" ? "player" : "entity"}
                       tile={ent.entity.type}
                       key={ent.id + "ent" + Math.random()}
                     >
