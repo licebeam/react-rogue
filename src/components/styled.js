@@ -1,10 +1,18 @@
 import styled from "styled-components";
-import { MAX_WORLD_WIDTH, TILE_SIZE } from "../constants/constants";
+import { MAX_WORLD_WIDTH, TILE_SIZE, MAX_TILES } from "../constants/constants";
 
 export const TileContainer = styled.div`
   align-self: center;
   display: grid;
   grid-template-columns: ${`repeat(${MAX_WORLD_WIDTH}, ${TILE_SIZE}px)`};
+  /* .lighting {
+    background-color: black;
+    z-index: 100;
+    height: ${`${(MAX_TILES / 2) * TILE_SIZE}px`};
+    width: ${`${(MAX_TILES / 2) * TILE_SIZE}px`};
+    clip-path: circle(40%);
+    position: absolute;
+  } */
 `;
 
 export const Tile = styled.div`
@@ -75,6 +83,15 @@ export const Tile = styled.div`
         return "orange";
       case "stone":
         return "brown";
+      default:
+        break;
+    }
+  }};
+  clip-path: ${props => {
+    switch (props.tile) {
+      //ENTITIES
+      case "player":
+        return "clip-path: rect(50% 5%, 0% 100%, 100% 100%)";
       default:
         break;
     }

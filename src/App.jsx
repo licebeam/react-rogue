@@ -296,6 +296,7 @@ class App extends Component {
     return (
       <Wrapper className="App">
         <TileContainer className="tiles">
+          <div className="lighting" />
           {currentRoom && currentRoom.room
             ? currentRoom.room.map(t => {
                 if (this.produceEntityOnScreen(t.id)) {
