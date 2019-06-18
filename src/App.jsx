@@ -457,6 +457,7 @@ class App extends Component {
       currentRoom.room &&
       currentRoom.room.find(t => t.id === Player.id);
     this.findPath(tile, "rat");
+    //TODO MAKE SURE ENTITIES DO NOT USE CURRENT ROOM IN CHANGE ie make it not use your turn to use the stairs
   };
 
   //RENDERS TILES AND ENTITIES
