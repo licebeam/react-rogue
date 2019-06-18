@@ -318,8 +318,7 @@ class App extends Component {
       this.checkRange(tileX, entityX - lightMax, entityX + lightMax) &&
       this.checkRange(tileY, entityY - lightMax, entityY + lightMax)
     ) {
-      console.log(this.distance(entityTile, currentTile) / 10);
-      return this.distance(entityTile, currentTile) / 10;
+      return this.distance(entityTile, currentTile) / 10; //CALCULATES LIGHTING SHADE
     } else return 1;
   };
 
