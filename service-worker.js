@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/react-rogue/precache-manifest.e550c74a969b55aa84e422caee847e2e.js"
+  "/react-rogue/precache-manifest.3e9df9048d5777b2b43bf9efc06f6f79.js"
 );
 
 self.addEventListener('message', (event) => {
