@@ -296,7 +296,7 @@ class App extends Component {
   // give return lighting value for tile
   generateLighting = tileId => {
     const { allEntities, currentRoom } = this.state;
-    const lightMax = 5;
+    const lightMax = 8;
     const currentTile =
       currentRoom &&
       currentRoom.room &&
