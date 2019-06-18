@@ -333,10 +333,10 @@ class App extends Component {
   };
 
   //PATHFINDING
-  findPath = clickedTile => {
+  findPath = (clickedTile, entType) => {
     const { allEntities, currentRoom } = this.state;
     const entity =
-      allEntities && allEntities.find(e => e.entity.type === "player");
+      allEntities && allEntities.find(e => e.entity.type === entType);
     const entityTile =
       currentRoom &&
       currentRoom.room &&
@@ -362,7 +362,7 @@ class App extends Component {
         console.log(
           "Path was found. The first Point is " + path[0].x + " " + path[0].y
         );
-        this.mouseMovePlayer(path);
+        this.mouseMovePlayer(path, entType);
       }
     });
     easystar.calculate();
@@ -373,10 +373,10 @@ class App extends Component {
   };
 
   handleTileClick = tile => {
-    this.findPath(tile);
+    this.findPath(tile, "player");
   };
 
-  mouseMovePlayer = async path => {
+  mouseMovePlayer = async (path, entType) => {
     const { currentRoom, allEntities } = this.state;
     let i;
     for (i = 0; i < path.length; ) {
@@ -384,16 +384,16 @@ class App extends Component {
         currentRoom &&
         currentRoom.room &&
         currentRoom.room.find(t => t.x === path[i].x && t.y === path[i].y);
-      let player = allEntities.find(
-        ent => ent.entity && ent.entity.type && ent.entity.type === "player"
+      let entityToMove = allEntities.find(
+        ent => ent.entity && ent.entity.type && ent.entity.type === entType
       );
-      const playerIndex = allEntities.indexOf(player);
+      const entityToMoveIndex = allEntities.indexOf(entityToMove);
       await this.setState(
         {
           allEntities: Object.assign([...allEntities], {
-            [playerIndex]: {
+            [entityToMoveIndex]: {
               roomId: this.state.currentRoomId,
-              entity: player.entity,
+              entity: entityToMove.entity,
               id: currentTile.id
             }
           })
