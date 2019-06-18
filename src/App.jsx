@@ -290,6 +290,13 @@ class App extends Component {
     return false;
   }
 
+  // function getLighting (currentTile, allEntities)
+  // get entLightingDistance  map through entities and find their lighting
+  // check to make sure lighting stops at wall
+  // give return lighting value for tile
+  generateLighting = tileId => {
+    return 0.1;
+  };
   //RENDERS TILES AND ENTITIES
   render() {
     const { currentRoom, currentTurn, currentTile, playerTurn } = this.state;
@@ -302,6 +309,7 @@ class App extends Component {
                   const ent = this.produceEntityOnScreen(t.id);
                   return (
                     <Tile
+                      lighting={this.generateLighting(t.id)}
                       id={ent.entity.type === "player" ? "player" : "entity"}
                       tile={ent.entity.type}
                       key={ent.id + "ent" + Math.random()}
@@ -316,11 +324,13 @@ class App extends Component {
                       ) : (
                         ent.entity.char
                       )}
+                      <div className="light" />
                     </Tile>
                   );
                 } else if (t.contains) {
                   return (
                     <Tile
+                      lighting={this.generateLighting(t.id)}
                       tile={t.contains.name}
                       key={t.id + "tile" + Math.random()}
                     >
@@ -334,11 +344,13 @@ class App extends Component {
                       ) : (
                         t.contains.char
                       )}
+                      <div className="light" />
                     </Tile>
                   );
                 } else {
                   return (
                     <Tile
+                      lighting={this.generateLighting(t.id)}
                       tile={t.tile.name}
                       key={t.id + "normal" + Math.random()}
                     >
@@ -348,6 +360,7 @@ class App extends Component {
                       ) : (
                         t.tile.char
                       )}
+                      <div className="light" />
                     </Tile>
                   );
                 }

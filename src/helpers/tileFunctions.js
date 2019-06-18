@@ -8,11 +8,26 @@ const checkTileType = (tile, i, rowIndex) => {
   var rowMultiplier = rowIndex >= 1 ? (rowIndex * MAX_TILES) / 2 - 1 : rowIndex;
   switch (tile) {
     case 0:
-      return { id: i + 1 + rowMultiplier, tile: tileTypes.ground };
+      return {
+        id: i + 1 + rowMultiplier,
+        tile: tileTypes.ground,
+        x: i,
+        y: rowIndex
+      };
     case 1:
-      return { id: i + 1 + rowMultiplier, tile: tileTypes.wall };
+      return {
+        id: i + 1 + rowMultiplier,
+        tile: tileTypes.wall,
+        x: i,
+        y: rowIndex
+      };
     default:
-      return { id: i + 1 + rowMultiplier, tile: tileTypes.ground };
+      return {
+        id: i + 1 + rowMultiplier,
+        tile: tileTypes.ground,
+        x: i,
+        y: rowIndex
+      };
   }
 };
 

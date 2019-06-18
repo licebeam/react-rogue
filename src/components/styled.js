@@ -9,6 +9,7 @@ export const TileContainer = styled.div`
 `;
 
 export const Tile = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -89,9 +90,18 @@ export const Tile = styled.div`
         break;
     }
   }};
-  /* &:hover {
+  .light {
+    position: absolute;
+    z-index: 10;
+    background-color: ${props => `rgba(0, 0, 0, ${props.lighting})`};
+    height: ${`${TILE_SIZE}px`};
+    width: ${`${TILE_SIZE}px`};
+    top: 0;
+    left: 0;
+  }
+  &:hover {
     opacity: 0.8;
-  } */
+  }
   .sprite-image {
     object-fit: cover;
     height: ${`${TILE_SIZE}px`};
