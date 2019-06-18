@@ -264,7 +264,6 @@ class App extends Component {
       } else return null;
     });
     const flattenedEntities = entities.filter(e => e);
-    console.log(flattenedEntities);
     return flattenedEntities;
   };
 
