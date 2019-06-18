@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import lodash from "lodash";
+import EasyStar from "easystarjs";
 import {
   MAX_WORLD_WIDTH,
   MAX_WORLD_HEIGHT,
   MAX_TILES
 } from "./constants/constants";
 import styled from "styled-components";
-import { TileContainer, Tile, Shadow, ShadowHolder } from "./components/styled";
+import { TileContainer, Tile } from "./components/styled";
 import { dungeonGenerator } from "./helpers/tileFunctions";
 import { changePlayerPosition } from "./helpers/moveFunctions";
 import { flatten } from "lodash";
@@ -55,7 +57,8 @@ class App extends Component {
     playerTurn: true,
     othersTurn: false,
     currentTile: "",
-    keyPress: false
+    keyPress: false,
+    hoveredTile: {}
   };
 
   //ADDS TILES AND ADDS EVENT LISTENERS FOR KEYS
@@ -290,10 +293,6 @@ class App extends Component {
     return false;
   }
 
-  // function getLighting (currentTile, allEntities)
-  // get entLightingDistance  map through entities and find their lighting
-  // check to make sure lighting stops at wall
-  // give return lighting value for tile
   generateLighting = tileId => {
     const { allEntities, currentRoom } = this.state;
     const lightMax = 8;
@@ -332,11 +331,88 @@ class App extends Component {
   checkRange = (xy, min, max) => {
     return (xy - min) * (xy - max) <= 0;
   };
+
+  //PATHFINDING
+  findPath = clickedTile => {
+    console.log(clickedTile);
+    const { allEntities, currentRoom } = this.state;
+    const entity =
+      allEntities && allEntities.find(e => e.entity.type === "player");
+    const entityTile =
+      currentRoom &&
+      currentRoom.room &&
+      currentRoom.room.find(t => t.id === entity.id);
+    const entityX = entityTile.x;
+    const entityY = entityTile.y;
+    const oneDimensionalRoom =
+      currentRoom &&
+      currentRoom.room &&
+      currentRoom.room.map(t => {
+        if (t.tile.name === "ground") {
+          return 0;
+        } else return 1;
+      });
+    const grid = lodash.chunk(oneDimensionalRoom, MAX_WORLD_WIDTH);
+    var easystar = new EasyStar.js();
+    easystar.setGrid(grid);
+    easystar.setAcceptableTiles([0]);
+    easystar.findPath(entityX, entityY, clickedTile.x, clickedTile.y, path => {
+      console.log("test", path);
+      if (path === null) {
+        alert("Path was not found.");
+      } else {
+        console.log(
+          "Path was found. The first Point is " + path[0].x + " " + path[0].y
+        );
+        this.mouseMovePlayer(path);
+      }
+    });
+    easystar.calculate();
+  };
+
+  handleHover = tile => {
+    this.setState({ hoveredTile: tile }, () => {});
+  };
+
+  handleTileClick = tile => {
+    this.findPath(tile);
+  };
+
+  mouseMovePlayer = async path => {
+    const { currentRoom, allEntities } = this.state;
+    let i;
+    for (i = 0; i < path.length; i++) {
+      var currentTile =
+        currentRoom &&
+        currentRoom.room &&
+        currentRoom.room.find(t => t.x === path[i].x && t.y === path[i].y);
+      let player = allEntities.find(
+        ent => ent.entity && ent.entity.type && ent.entity.type === "player"
+      );
+      const playerIndex = allEntities.indexOf(player);
+      await this.setState(
+        {
+          allEntities: Object.assign([...allEntities], {
+            [playerIndex]: {
+              roomId: this.state.currentRoomId,
+              entity: player.entity,
+              id: currentTile.id
+            }
+          })
+        },
+        () => {
+          this.updateTurn();
+        }
+      );
+    }
+  };
+
   //RENDERS TILES AND ENTITIES
   render() {
     const { currentRoom, currentTurn, currentTile, playerTurn } = this.state;
     return (
       <Wrapper className="App">
+        <button onClick={() => this.findPath()}>Test paths</button>
         <TileContainer className="tiles">
           {currentRoom && currentRoom.room
             ? currentRoom.room.map(t => {
@@ -344,6 +420,8 @@ class App extends Component {
                   const ent = this.produceEntityOnScreen(t.id);
                   return (
                     <Tile
+                      onClick={() => this.handleTileClick(t)}
+                      onMouseOver={() => this.handleHover(t)}
                       lighting={this.generateLighting(t.id)}
                       id={ent.entity.type === "player" ? "player" : "entity"}
                       tile={ent.entity.type}
@@ -365,6 +443,8 @@ class App extends Component {
                 } else if (t.contains) {
                   return (
                     <Tile
+                      onClick={() => this.handleTileClick(t)}
+                      onMouseOver={() => this.handleHover(t)}
                       lighting={this.generateLighting(t.id)}
                       tile={t.contains.name}
                       key={t.id + "tile" + Math.random()}
@@ -385,6 +465,8 @@ class App extends Component {
                 } else {
                   return (
                     <Tile
+                      onClick={() => this.handleTileClick(t)}
+                      onMouseOver={() => this.handleHover(t)}
                       lighting={this.generateLighting(t.id)}
                       tile={t.tile.name}
                       key={t.id + "normal" + Math.random()}
