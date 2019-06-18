@@ -295,7 +295,43 @@ class App extends Component {
   // check to make sure lighting stops at wall
   // give return lighting value for tile
   generateLighting = tileId => {
-    return 0.1;
+    const { allEntities, currentRoom } = this.state;
+    const lightMax = 5;
+    const currentTile =
+      currentRoom &&
+      currentRoom.room &&
+      currentRoom.room.find(t => t.id === tileId);
+    const tileX = currentTile.x;
+    const tileY = currentTile.y;
+    const entity =
+      allEntities && allEntities.find(e => e.entity.type === "player");
+    const entityTile =
+      currentRoom &&
+      currentRoom.room &&
+      currentRoom.room.find(t => t.id === entity.id);
+    const entityX = entityTile.x;
+    const entityY = entityTile.y;
+    if (entity.id === tileId) {
+      return 0;
+    }
+    if (
+      this.checkRange(tileX, entityX - lightMax, entityX + lightMax) &&
+      this.checkRange(tileY, entityY - lightMax, entityY + lightMax)
+    ) {
+      console.log(this.distance(entityTile, currentTile) / 10);
+      return this.distance(entityTile, currentTile) / 10;
+    } else return 1;
+  };
+
+  distance = (p, q) => {
+    var dx = p.x - q.x;
+    var dy = p.y - q.y;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    return dist;
+  };
+
+  checkRange = (xy, min, max) => {
+    return (xy - min) * (xy - max) <= 0;
   };
   //RENDERS TILES AND ENTITIES
   render() {
