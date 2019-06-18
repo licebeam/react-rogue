@@ -69,7 +69,12 @@ export const addRandomTiles = (curRoom, type) => {
         t.id === randomTile + 1 ||
         (t.id === randomTile - 1 || t.id === randomTile)
       ) {
-        return { id: t.id, tile: tileTypes[type] };
+        return {
+          x: t.x,
+          y: t.y,
+          id: t.id,
+          tile: tileTypes[type]
+        };
       } else return t;
     } else return t;
   });
@@ -87,6 +92,8 @@ export const addRandomItems = curRoom => {
         (t.id === randomTile - 1 || t.id === randomTile)
       ) {
         return {
+          x: t.x,
+          y: t.y,
           id: t.id,
           tile: tileTypes[type],
           contains: itemTypes[randomItem]
