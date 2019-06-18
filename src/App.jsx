@@ -334,7 +334,6 @@ class App extends Component {
 
   //PATHFINDING
   findPath = clickedTile => {
-    console.log(clickedTile);
     const { allEntities, currentRoom } = this.state;
     const entity =
       allEntities && allEntities.find(e => e.entity.type === "player");
@@ -357,9 +356,8 @@ class App extends Component {
     easystar.setGrid(grid);
     easystar.setAcceptableTiles([0]);
     easystar.findPath(entityX, entityY, clickedTile.x, clickedTile.y, path => {
-      console.log("test", path);
       if (path === null) {
-        alert("Path was not found.");
+        console.log("Path was not found.");
       } else {
         console.log(
           "Path was found. The first Point is " + path[0].x + " " + path[0].y
@@ -381,7 +379,7 @@ class App extends Component {
   mouseMovePlayer = async path => {
     const { currentRoom, allEntities } = this.state;
     let i;
-    for (i = 0; i < path.length; i++) {
+    for (i = 0; i < path.length; ) {
       var currentTile =
         currentRoom &&
         currentRoom.room &&
@@ -401,6 +399,7 @@ class App extends Component {
           })
         },
         () => {
+          i++;
           this.updateTurn();
         }
       );
