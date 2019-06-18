@@ -155,65 +155,76 @@ class App extends Component {
 
   //PLAYER KEYS
   fireKey = (event, key, checkHold) => {
-    const { allEntities, currentRoom, currentRoomId, keyPress } = this.state;
-    if (checkHold) {
-      //Checks if user is holding key
-      this.setState({ keyPress: true });
-    }
-    let Player = allEntities.find(ent => ent.entity.type === "player");
-    if (key === "ArrowUp" || (event.key === "ArrowUp" && keyPress === false)) {
-      this.setState({
-        editEntities: changePlayerPosition(
-          Player,
-          allEntities,
-          -MAX_WORLD_WIDTH,
-          currentRoom.room,
-          currentRoomId
-        )
-      });
-      this.updateTurn();
-    } else if (
-      key === "ArrowDown" ||
-      (event.key === "ArrowDown" && keyPress === false)
-    ) {
-      this.setState({
-        editEntities: changePlayerPosition(
-          Player,
-          allEntities,
-          MAX_WORLD_WIDTH,
-          currentRoom.room,
-          currentRoomId
-        )
-      });
-      this.updateTurn();
-    } else if (
-      key === "ArrowRight" ||
-      (event.key === "ArrowRight" && keyPress === false)
-    ) {
-      this.setState({
-        editEntities: changePlayerPosition(
-          Player,
-          allEntities,
-          1,
-          currentRoom.room,
-          currentRoomId
-        )
-      });
-      this.updateTurn();
-    } else if (
-      key === "ArrowLeft" ||
-      (event.key === "ArrowLeft" && keyPress === false)
-    ) {
-      this.setState({
-        editEntities: changePlayerPosition(
-          Player,
-          allEntities,
-          -1,
-          currentRoom.room,
-          currentRoomId
-        )
-      });
-      this.updateTurn();
+    const {
+      allEntities,
+      currentRoom,
+      currentRoomId,
+      keyPress,
+      playerTurn
+    } = this.state;
+    if (playerTurn) {
+      if (checkHold) {
+        //Checks if user is holding key
+        this.setState({ keyPress: true });
+      }
+      let Player = allEntities.find(ent => ent.entity.type === "player");
+      if (
+        key === "ArrowUp" ||
+        (event.key === "ArrowUp" && keyPress === false)
+      ) {
+        this.setState({
+          editEntities: changePlayerPosition(
+            Player,
+            allEntities,
+            -MAX_WORLD_WIDTH,
+            currentRoom.room,
+            currentRoomId
+          )
+        });
+        this.updateTurn();
+      } else if (
+        key === "ArrowDown" ||
+        (event.key === "ArrowDown" && keyPress === false)
+      ) {
+        this.setState({
+          editEntities: changePlayerPosition(
+            Player,
+            allEntities,
+            MAX_WORLD_WIDTH,
+            currentRoom.room,
+            currentRoomId
+          )
+        });
+        this.updateTurn();
+      } else if (
+        key === "ArrowRight" ||
+        (event.key === "ArrowRight" && keyPress === false)
+      ) {
+        this.setState({
+          editEntities: changePlayerPosition(
+            Player,
+            allEntities,
+            1,
+            currentRoom.room,
+            currentRoomId
+          )
+        });
+        this.updateTurn();
+      } else if (
+        key === "ArrowLeft" ||
+        (event.key === "ArrowLeft" && keyPress === false)
+      ) {
+        this.setState({
+          editEntities: changePlayerPosition(
+            Player,
+            allEntities,
+            -1,
+            currentRoom.room,
+            currentRoomId
+          )
+        });
+        this.updateTurn();
+      }
     }
   };
   //PLAYER KEYS
@@ -226,11 +237,18 @@ class App extends Component {
     const playerLocation = allEntities.find(e => e.entity.type === "player");
     //this method also stores the current player tile every turn;
     const playerTile = currentRoom.room.find(t => t.id === playerLocation.id);
-    this.setState({
-      playerTurn: !this.state.playerTurn,
-      currentTurn: this.state.currentTurn + 1,
-      currentTile: playerTile
-    });
+    this.setState(
+      {
+        playerTurn: !this.state.playerTurn,
+        currentTurn: this.state.currentTurn + 1,
+        currentTile: playerTile
+      },
+      () => {
+        if (!this.state.playerTurn) {
+          this.handleEntityTurn();
+        }
+      }
+    );
   };
 
   entityGenerator = (curRoom, roomId) => {
@@ -347,7 +365,7 @@ class App extends Component {
       currentRoom &&
       currentRoom.room &&
       currentRoom.room.map(t => {
-        if (t.tile.name === "ground") {
+        if (t.tile.name !== "wall") {
           return 0;
         } else return 1;
       });
@@ -357,12 +375,25 @@ class App extends Component {
     easystar.setAcceptableTiles([0]);
     easystar.findPath(entityX, entityY, clickedTile.x, clickedTile.y, path => {
       if (path === null) {
-        console.log("Path was not found.");
+        // console.log("Path was not found.");
       } else {
-        console.log(
-          "Path was found. The first Point is " + path[0].x + " " + path[0].y
-        );
-        this.mouseMovePlayer(path, entType);
+        // console.log(
+        //   "Path was found. The first Point is " + path[0].x + " " + path[0].y
+        // );
+        if (entType !== "player") {
+          if (
+            path[1].x === this.state.currentTile.x &&
+            path[1].y === this.state.currentTile.y
+          ) {
+            console.log(this.state.currentTile);
+            this.updateTurn();
+          } else {
+            this.moveEntityByPath(path, entType);
+          }
+          //MAKES ENTITIES NEVER OVERLAP THE PLAYER
+        } else if (entType === "player") {
+          this.moveEntityByPath(path, entType);
+        }
       }
     });
     easystar.calculate();
@@ -373,17 +404,27 @@ class App extends Component {
   };
 
   handleTileClick = tile => {
-    this.findPath(tile, "player");
+    if (this.state.playerTurn) this.findPath(tile, "player");
   };
 
-  mouseMovePlayer = async (path, entType) => {
+  moveEntityByPath = async (path, entType) => {
+    let updatedPath = [];
+    if (entType !== "player") {
+      updatedPath.push(path[1]); // THE AMOUNT OF SPACES WE WANT THE ENEMY TO MOVE
+      //SET THE MOVE TO 0 SPACES IF TOUCHING PLAYER
+    }
+    if (entType === "player") {
+      updatedPath = path;
+    }
     const { currentRoom, allEntities } = this.state;
     let i;
-    for (i = 0; i < path.length; ) {
+    for (i = 0; i < updatedPath.length; i++) {
       var currentTile =
         currentRoom &&
         currentRoom.room &&
-        currentRoom.room.find(t => t.x === path[i].x && t.y === path[i].y);
+        currentRoom.room.find(
+          t => t.x === updatedPath[i].x && t.y === updatedPath[i].y
+        );
       let entityToMove = allEntities.find(
         ent => ent.entity && ent.entity.type && ent.entity.type === entType
       );
@@ -399,11 +440,20 @@ class App extends Component {
           })
         },
         () => {
-          i++;
           this.updateTurn();
         }
       );
     }
+  };
+
+  handleEntityTurn = () => {
+    const { allEntities, currentRoom } = this.state;
+    let Player = allEntities.find(ent => ent.entity.type === "player");
+    const tile =
+      currentRoom &&
+      currentRoom.room &&
+      currentRoom.room.find(t => t.id === Player.id);
+    this.findPath(tile, "rat");
   };
 
   //RENDERS TILES AND ENTITIES
