@@ -148,6 +148,8 @@ class App extends Component {
           entities.push(this.addPlayerOnStart(this.state.allRooms[k].room));
         }
         entities.push(this.entityGenerator(this.state.allRooms[k].room, k));
+        entities.push(this.entityGenerator(this.state.allRooms[k].room, k));
+        entities.push(this.entityGenerator(this.state.allRooms[k].room, k));
       }
       this.setState({ allEntities: flatten(entities) });
     });
@@ -262,6 +264,7 @@ class App extends Component {
       } else return null;
     });
     const flattenedEntities = entities.filter(e => e);
+    console.log(flattenedEntities);
     return flattenedEntities;
   };
 
@@ -404,7 +407,7 @@ class App extends Component {
   };
 
   handleTileClick = tile => {
-    if (this.state.playerTurn) this.findPath(tile, "player");
+    // if (this.state.playerTurn) this.findPath(tile, "player");
   };
 
   moveEntityByPath = async (path, entType) => {
@@ -446,7 +449,7 @@ class App extends Component {
     }
   };
 
-  handleEntityTurn = () => {
+  handleEntityTurn = async () => {
     const { allEntities, currentRoom } = this.state;
     let Player = allEntities.find(ent => ent.entity.type === "player");
     const tile =
@@ -539,7 +542,6 @@ class App extends Component {
             <div>player: {playerTurn.toString()}</div>
             <div>currentTile:{JSON.stringify(currentTile)}</div>
           </div>
-
           <div className="controls">
             <button onClick={() => this.fireKey(false, "ArrowUp", false)}>
               up
