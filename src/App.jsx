@@ -382,7 +382,7 @@ class App extends Component {
         // console.log(
         //   "Path was found. The first Point is " + path[0].x + " " + path[0].y
         // );
-        if (entType !== "player") {
+        if (entType !== "player" && path.length <= 10) { //checks to make sure the entity is not too close to player
           if (
             path[1].x === this.state.currentTile.x &&
             path[1].y === this.state.currentTile.y
@@ -393,7 +393,10 @@ class App extends Component {
             this.moveEntityByPath(path, entType);
           }
           //MAKES ENTITIES NEVER OVERLAP THE PLAYER
-        } else if (entType === "player") {
+        } else if (entType !== "player" && path.length >= 11) {
+          this.updateTurn() // skip entity turn if not in range
+        }
+        else if (entType === "player") {
           this.moveEntityByPath(path, entType);
         }
       }
@@ -402,7 +405,7 @@ class App extends Component {
   };
 
   handleHover = tile => {
-    this.setState({ hoveredTile: tile }, () => {});
+    this.setState({ hoveredTile: tile }, () => { });
   };
 
   handleTileClick = tile => {
@@ -468,72 +471,72 @@ class App extends Component {
         <TileContainer className="tiles">
           {currentRoom && currentRoom.room
             ? currentRoom.room.map(t => {
-                if (this.produceEntityOnScreen(t.id)) {
-                  const ent = this.produceEntityOnScreen(t.id);
-                  return (
-                    <Tile
-                      onClick={() => this.handleTileClick(t)}
-                      onMouseOver={() => this.handleHover(t)}
-                      lighting={this.generateLighting(t.id)}
-                      id={ent.entity.type === "player" ? "player" : "entity"}
-                      tile={ent.entity.type}
-                      key={ent.id + "ent" + Math.random()}
-                    >
-                      {/* conditionally render image */}
-                      {ent.entity.img ? (
-                        <img
-                          className="sprite-image"
-                          src={ent.entity.img}
-                          alt=""
-                        />
-                      ) : (
+              if (this.produceEntityOnScreen(t.id)) {
+                const ent = this.produceEntityOnScreen(t.id);
+                return (
+                  <Tile
+                    onClick={() => this.handleTileClick(t)}
+                    onMouseOver={() => this.handleHover(t)}
+                    lighting={this.generateLighting(t.id)}
+                    id={ent.entity.type === "player" ? "player" : "entity"}
+                    tile={ent.entity.type}
+                    key={ent.id + "ent" + Math.random()}
+                  >
+                    {/* conditionally render image */}
+                    {ent.entity.img ? (
+                      <img
+                        className="sprite-image"
+                        src={ent.entity.img}
+                        alt=""
+                      />
+                    ) : (
                         ent.entity.char
                       )}
-                      <div className="light" />
-                    </Tile>
-                  );
-                } else if (t.contains) {
-                  return (
-                    <Tile
-                      onClick={() => this.handleTileClick(t)}
-                      onMouseOver={() => this.handleHover(t)}
-                      lighting={this.generateLighting(t.id)}
-                      tile={t.contains.name}
-                      key={t.id + "tile" + Math.random()}
-                    >
-                      {/* conditionally render image */}
-                      {t.contains.img ? (
-                        <img
-                          className="sprite-image"
-                          src={t.contains.img}
-                          alt=""
-                        />
-                      ) : (
+                    <div className="light" />
+                  </Tile>
+                );
+              } else if (t.contains) {
+                return (
+                  <Tile
+                    onClick={() => this.handleTileClick(t)}
+                    onMouseOver={() => this.handleHover(t)}
+                    lighting={this.generateLighting(t.id)}
+                    tile={t.contains.name}
+                    key={t.id + "tile" + Math.random()}
+                  >
+                    {/* conditionally render image */}
+                    {t.contains.img ? (
+                      <img
+                        className="sprite-image"
+                        src={t.contains.img}
+                        alt=""
+                      />
+                    ) : (
                         t.contains.char
                       )}
-                      <div className="light" />
-                    </Tile>
-                  );
-                } else {
-                  return (
-                    <Tile
-                      onClick={() => this.handleTileClick(t)}
-                      onMouseOver={() => this.handleHover(t)}
-                      lighting={this.generateLighting(t.id)}
-                      tile={t.tile.name}
-                      key={t.id + "normal" + Math.random()}
-                    >
-                      {/* conditionally render image */}
-                      {t.tile.img ? (
-                        <img className="sprite-image" src={t.tile.img} alt="" />
-                      ) : (
+                    <div className="light" />
+                  </Tile>
+                );
+              } else {
+                return (
+                  <Tile
+                    onClick={() => this.handleTileClick(t)}
+                    onMouseOver={() => this.handleHover(t)}
+                    lighting={this.generateLighting(t.id)}
+                    tile={t.tile.name}
+                    key={t.id + "normal" + Math.random()}
+                  >
+                    {/* conditionally render image */}
+                    {t.tile.img ? (
+                      <img className="sprite-image" src={t.tile.img} alt="" />
+                    ) : (
                         t.tile.char
                       )}
-                      <div className="light" />
-                    </Tile>
-                  );
-                }
-              })
+                    <div className="light" />
+                  </Tile>
+                );
+              }
+            })
             : null}
         </TileContainer>
         <Menu>
